@@ -1,6 +1,5 @@
 package com.materia.service;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +42,17 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 	}
 
 	// Matricula a un estudiante en una materia
-	public boolean matricularEstudiante(String idUsuario, String codigoAutoMateria) throws Exception {
-		for (MateriaDTO materia : getAll()) {
+	//Return 0 no se puede matricular debido a que se encuentra matriculado anteriormente
+	//Return 1 se pudo matricular satisfactoriamente
+	//Return 2 no se puede matricular debido a que no se encuentra el estudiante en base de datos
+	//Return 3 no se puede matricular debido a que no se encuentra el codigo de la materia ingresado
+	public Integer matricularEstudiante(String idUsuario, String codigoAutoMateria) throws Exception {
+		for (MateriaDTO materia : getAll()) { 
 			//Valida el codigo de acceso autogenerado
-			if (compararCodigo(materia, codigoAutoMateria)) {			
+			if (compararCodigo(materia, codigoAutoMateria)) {	
 				Map<String, String> estudiantesMatriculados = materia.getStudents();
 				if (estudiantesMatriculados.containsKey(idUsuario)) {
-					return false;// Ya está matriculado
+					return 0;// Ya está matriculado
 				} else {
 					String estudiante = getNombreEstudiante(idUsuario);
 					//Valida que el estudiante este en la base de datos
@@ -60,20 +63,20 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 						// (async) Update one field
 						ApiFuture<WriteResult> future = docRef.update("students", estudiantesMatriculados);
 						future.get();
-						return true;
-					} else {
-						return false;
+						return 1;
+					}else {
+					return 2;
 					}
 				}
 			}
 		}
-		return false;
+		return 3;
 	}
 
 	// Desmatricula a un estudiante en una materia
 	public boolean desmatricularEstudiante(String idUsuario, String codigoMateria) throws Exception {
 		MateriaDTO materia = get(codigoMateria);
-		if(materia!=null) {
+		if (materia != null) {
 			Map<String, String> estudiantesMatriculados = materia.getStudents();
 			if (estudiantesMatriculados.containsKey(idUsuario)) {
 				estudiantesMatriculados.remove(idUsuario);
@@ -81,9 +84,42 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 				ApiFuture<WriteResult> future = docRef.update("students", estudiantesMatriculados);
 				future.get();
 				return true;// Ya está desmatriculado
-			} 
+			}
 		}
 		return false;
+	}
+
+	// Metodo para obtener el nombre de un subject de acuerdo a su ID
+	public String getSubject(String idSubject) throws Exception {
+		String result = "";
+		DocumentReference docRef = firestore.collection("Subjects").document(idSubject);
+		// asynchronously retrieve the document
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		// ...
+		// future.get() blocks on response
+		DocumentSnapshot document = future.get();
+		if (document.exists()) {
+			result = document.getData().get("name").toString();
+		}
+		return result;
+	}
+
+	// Metodo para obtener el nombre de un teacher de acuerdo a su ID
+	public String getTeacher(String idProfesor) throws Exception {
+		String result = "";
+		DocumentReference docRef = firestore.collection("Teachers").document(idProfesor);
+		// asynchronously retrieve the document
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		// ...
+		// future.get() blocks on response
+		DocumentSnapshot document = future.get();
+		if (document.exists()) {
+			String nombre = document.getData().get("name").toString();
+			String apellido = document.getData().get("surname").toString();
+			result = nombre.concat(" ");
+			result = result.concat(apellido);
+		}
+		return result;
 	}
 
 	private String getNombreEstudiante(String idEstudiante) throws Exception {
@@ -102,9 +138,14 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 		}
 		return result;
 	}
-	private boolean compararCodigo(MateriaDTO materia,String codigo) {
-		if(materia.getAccess_key()==codigo) {
+
+	private boolean compararCodigo(MateriaDTO materia, String codigo) {
+		try {
+		if (codigo.compareTo(materia.getAccess_key()) == 0) {
 			return true;
+		}
+		}catch (NullPointerException e) {
+			// TODO: handle exception
 		}
 		return false;
 	}

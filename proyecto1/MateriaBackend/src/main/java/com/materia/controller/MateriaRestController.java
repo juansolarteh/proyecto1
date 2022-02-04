@@ -64,15 +64,29 @@ public class MateriaRestController {
 	}
 	
 	@PostMapping(value = "/matricular/{id}/{codigo}")
-	public boolean matricularUsuario(@PathVariable String id,@PathVariable String codigo) throws Exception {
+	public ResponseEntity<Integer> matricularUsuario(@PathVariable String id,@PathVariable String codigo) throws Exception {
 		
-		return materiaServiceAPI.matricularEstudiante(id, codigo);
+		return new ResponseEntity<Integer>(materiaServiceAPI.matricularEstudiante(id, codigo), HttpStatus.OK) ;
 		
 	}
 	@PostMapping(value = "/desmatricular/{id}/{codigo}")
-	public boolean desmatricularUsuario(@PathVariable String id,@PathVariable String codigo) throws Exception {
+	public ResponseEntity<Boolean> desmatricularUsuario(@PathVariable String id,@PathVariable String codigo) throws Exception {
 		
-		return materiaServiceAPI.desmatricularEstudiante(id,codigo);
+		return new ResponseEntity<Boolean>(materiaServiceAPI.desmatricularEstudiante(id,codigo), HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value = "/profesor/{id}")
+	public ResponseEntity<String> getNombreProfesor(@PathVariable String id) throws Exception {
+		
+		return new ResponseEntity<String>(materiaServiceAPI.getTeacher(id), HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value = "/asignatura/{id}")
+	public ResponseEntity<String> getNombreAsignatura(@PathVariable String id) throws Exception {
+		
+		return new ResponseEntity<String>(materiaServiceAPI.getSubject(id), HttpStatus.OK);
 		
 	}
 }

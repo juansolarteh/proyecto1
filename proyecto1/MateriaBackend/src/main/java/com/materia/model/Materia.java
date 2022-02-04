@@ -1,16 +1,20 @@
 package com.materia.model;
 
+import java.util.Date;
 import java.util.Map;
+
 
 public class Materia {
 
 	private String subject_id;
-	private String teacher_id;
+	private Integer teacher_id;
 	private String name;
 	private Map<String, String> students;
 	private String access_key;
-	private String start;
-	private String end;
+	private Date start;
+	private Date end;
+	
+	//2012-04-23T18:25:43.511Z
 	
 	public String getSubject_id() {
 		return subject_id;
@@ -18,10 +22,10 @@ public class Materia {
 	public void setSubject_id(String subject_id) {
 		this.subject_id = subject_id;
 	}
-	public String getTeacher_id() {
+	public Integer getTeacher_id() {
 		return teacher_id;
 	}
-	public void setTeacher_id(String teacher_id) {
+	public void setTeacher_id(Integer teacher_id) {
 		this.teacher_id = teacher_id;
 	}
 	public String getName() {
@@ -42,16 +46,16 @@ public class Materia {
 	public void setAccess_key(String access_key) {
 		this.access_key = access_key;
 	}
-	public String getStart() {
+	public Date getStart() {
 		return start;
 	}
-	public void setStart(String start) {
+	public void setStart(Date start) {
 		this.start = start;
 	}
-	public String getEnd() {
+	public Date getEnd() {
 		return end;
 	}
-	public void setEnd(String end) {
+	public void setEnd(Date end) {
 		this.end = end;
 	}
 	
