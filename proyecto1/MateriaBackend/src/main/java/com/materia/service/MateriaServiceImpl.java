@@ -34,6 +34,7 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 		for (MateriaDTO materia : getAll()) {
 			if (materia.getStudents() != null) {
 				if (materia.getStudents().containsKey(idUsuario)) {
+					materia.setTeacher(getTeacher(materia.getTeacher_id()));
 					result.add(materia);
 				}
 			}
@@ -105,9 +106,9 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 	}
 
 	// Metodo para obtener el nombre de un teacher de acuerdo a su ID
-	public String getTeacher(String idProfesor) throws Exception {
+	public String getTeacher(Integer idProfesor) throws Exception {
 		String result = "";
-		DocumentReference docRef = firestore.collection("Teachers").document(idProfesor);
+		DocumentReference docRef = firestore.collection("Teachers").document(idProfesor.toString());
 		// asynchronously retrieve the document
 		ApiFuture<DocumentSnapshot> future = docRef.get();
 		// ...

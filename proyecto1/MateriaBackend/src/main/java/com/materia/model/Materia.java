@@ -7,26 +7,34 @@ import java.util.Map;
 public class Materia {
 
 	private String subject_id;
-	private Integer teacher_id;
+	private String teacher_name;
 	private String name;
 	private Map<String, String> students;
 	private String access_key;
 	private Date start;
 	private Date end;
+	private Integer teacher_id;
 	
 	//2012-04-23T18:25:43.511Z
+	
 	
 	public String getSubject_id() {
 		return subject_id;
 	}
-	public void setSubject_id(String subject_id) {
-		this.subject_id = subject_id;
-	}
-	public Integer getTeacher_id() {
+	public int getTeacher_id() {
 		return teacher_id;
 	}
 	public void setTeacher_id(Integer teacher_id) {
 		this.teacher_id = teacher_id;
+	}
+	public void setSubject_id(String subject_id) {
+		this.subject_id = subject_id;
+	}
+	public String getTeacher() {
+		return teacher_name;
+	}
+	public void setTeacher(String teacher_name) {
+		this.teacher_name = teacher_name;
 	}
 	public String getName() {
 		return name;

@@ -11,6 +11,8 @@ public class Practica {
 	private Map<String, String> data;
 	private Date start_available;
 	private Date end_available;
+	private String course_name;
+	private String topic_name;
 	
 	public Map<String, String> getData() {
 		return data;
@@ -42,5 +44,18 @@ public class Practica {
 	public void setEnd_available(Date end_available) {
 		this.end_available = end_available;
 	}
+	public String getCourse_name() {
+		return course_name;
+	}
+	public void setCourse_name(String course_name) {
+		this.course_name = course_name;
+	}
+	public String getTopic_name() {
+		return topic_name;
+	}
+	public void setTopic_name(String topic_name) {
+		this.topic_name = topic_name;
+	}
+	
 	
 }

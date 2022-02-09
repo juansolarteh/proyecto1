@@ -61,15 +61,5 @@ public class PracticaRestController {
 	public List<PracticaDTO> listarPracticas(@PathVariable String id) throws Exception {
 		return practicaServiceAPI.getPracticas(id);
 	}
-
-	@GetMapping(value = "/curso/{id}")
-	public ResponseEntity<String>  getNombreCurso(@PathVariable String id) throws Exception {
-		return new ResponseEntity<String>(practicaServiceAPI.getCourse(id),HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/tematica/{id}")
-	public ResponseEntity<String>  getNombreTematica(@PathVariable String id) throws Exception {
-		return new ResponseEntity<String>(practicaServiceAPI.getTopic(id),HttpStatus.OK);
-	}
 	
 }

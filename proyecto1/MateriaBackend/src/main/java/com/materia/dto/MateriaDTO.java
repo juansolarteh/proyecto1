@@ -5,6 +5,7 @@ import java.util.Map;
 public class MateriaDTO {
 	private String id;
 	private String subject_id;
+	private String teacher_name;
 	private Integer teacher_id;
 	private String name;
 	private Map<String, String> students;
@@ -12,6 +13,13 @@ public class MateriaDTO {
 	private Date start;
 	private Date end;
 	
+	
+	public Integer getTeacher_id() {
+		return teacher_id;
+	}
+	public void setTeacher_id(Integer teacher_id) {
+		this.teacher_id = teacher_id;
+	}
 	public String getId() {
 		return id;
 	}
@@ -24,11 +32,11 @@ public class MateriaDTO {
 	public void setSubject_id(String subject_id) {
 		this.subject_id = subject_id;
 	}
-	public Integer getTeacher_id() {
-		return teacher_id;
+	public String getTeacher() {
+		return teacher_name;
 	}
-	public void setTeacher_id(Integer teacher_id) {
-		this.teacher_id = teacher_id;
+	public void setTeacher(String teacher_name) {
+		this.teacher_name = teacher_name;
 	}
 	public String getName() {
 		return name;

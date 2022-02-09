@@ -31,7 +31,9 @@ public class MateriaRestController {
 
 	@GetMapping(value = "/find/{id}")
 	public MateriaDTO find(@PathVariable String id) throws Exception {
-		return materiaServiceAPI.get(id);
+		MateriaDTO materia = materiaServiceAPI.get(id);
+		materia.setTeacher(materiaServiceAPI.getTeacher(materia.getTeacher_id()));
+		return materia;
 	}
 
 	@PostMapping(value = "/save/{id}")
@@ -74,14 +76,7 @@ public class MateriaRestController {
 		
 		return new ResponseEntity<Boolean>(materiaServiceAPI.desmatricularEstudiante(id,codigo), HttpStatus.OK);
 		
-	}
-	
-	@GetMapping(value = "/profesor/{id}")
-	public ResponseEntity<String> getNombreProfesor(@PathVariable String id) throws Exception {
-		
-		return new ResponseEntity<String>(materiaServiceAPI.getTeacher(id), HttpStatus.OK);
-		
-	}
+	}	
 	
 	@GetMapping(value = "/asignatura/{id}")
 	public ResponseEntity<String> getNombreAsignatura(@PathVariable String id) throws Exception {

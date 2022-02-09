@@ -36,6 +36,8 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 							|| new Date().equals(practica.getStart_available())) {
 						if (new Date().before(practica.getEnd_available())
 								|| new Date().equals(practica.getEnd_available())) {
+							practica.setCourse_name(getCourse(practica.getCourse_id()));
+							practica.setTopic_name(getTopic(practica.getTopic_id()));
 							result.add(practica);
 						}
 					}
@@ -46,7 +48,7 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 	}
 
 	// Metodo para obtener el nombre del curso
-	public String getCourse(String idCourse) throws Exception {
+	private String getCourse(String idCourse) throws Exception {
 		String result = "";
 		DocumentReference docRef = firestore.collection("Courses").document(idCourse);
 		// asynchronously retrieve the document
@@ -61,7 +63,7 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 	}
 
 	// Metodo para obtener el nombre de un tema de practica
-	public String getTopic(String id) throws Exception {
+	private String getTopic(String id) throws Exception {
 		String result = "";
 		DocumentReference docRef = firestore.collection("Topics").document(id);
 		// asynchronously retrieve the document
