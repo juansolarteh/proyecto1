@@ -1,0 +1,23 @@
+<div id="wrapper-full-calendar">
+    <div id="wrapper-calendar-date-picker">
+        <button (click)="calendarPicker.receiveExternalDate(currentDate); 
+                        calendarWithTime.receiveExternalDate(currentDate)">Hoy</button>
+        <div id="calendarPicker">
+            <app-calendar-date-picker 
+                (changeDatePicked)="calendarWithTime.receiveExternalDate($event)" 
+                #calendarPicker>
+            </app-calendar-date-picker>
+        </div>
+    </div>
+    <div id="wrapper-calendar-time-for-week">
+        <app-calendar-time-for-week  id="1"
+            (pickDate)="calendarPicker.receiveExternalDate($event)" 
+            (pickHourDay)="dateWithHour = $event" 
+            #calendarWithTime></app-calendar-time-for-week>
+    </div>
+</div>
+<hr>
+<div>
+    <button (click)="calendarWithTime.confirmEvent(titleEvent, descriptionEvent)"> Confirmar evento </button>
+    {{dateWithHour}}
+</div>
