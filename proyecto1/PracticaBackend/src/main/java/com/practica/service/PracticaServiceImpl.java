@@ -48,7 +48,7 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 	}
 
 	// Metodo para obtener el nombre del curso
-	private String getCourse(String idCourse) throws Exception {
+	public String getCourse(String idCourse) throws Exception {
 		String result = "";
 		DocumentReference docRef = firestore.collection("Courses").document(idCourse);
 		// asynchronously retrieve the document
@@ -63,7 +63,7 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 	}
 
 	// Metodo para obtener el nombre de un tema de practica
-	private String getTopic(String id) throws Exception {
+	public String getTopic(String id) throws Exception {
 		String result = "";
 		DocumentReference docRef = firestore.collection("Topics").document(id);
 		// asynchronously retrieve the document

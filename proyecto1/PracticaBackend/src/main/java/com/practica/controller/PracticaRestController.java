@@ -32,7 +32,10 @@ public class PracticaRestController {
 
 	@GetMapping(value = "/find/{id}")
 	public PracticaDTO find(@PathVariable String id) throws Exception {
-		return practicaServiceAPI.get(id);
+		PracticaDTO practica = practicaServiceAPI.get(id);
+		practica.setCourse_name(practicaServiceAPI.getCourse(practica.getCourse_id()));
+		practica.setTopic_name(practicaServiceAPI.getTopic(practica.getTopic_id()));
+		return practica;
 	}
 
 	@PostMapping(value = "/save/{id}")
