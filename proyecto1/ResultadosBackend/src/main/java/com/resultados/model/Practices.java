@@ -9,7 +9,7 @@ public class Practices {
 	private Map<String, String> students;
 	private Map<String, String> data;
 	private Map<String, String> attendees;
-	private Map<String, String> anomalias;
+	private Map<String, String> anomaly;
 	private int next_anomaly_id;
 	private Date start;
 	private Date end;
@@ -51,10 +51,10 @@ public class Practices {
 		this.attendees=attendees;
 	}
 	public Map<String, String> getAnomalias(){
-		return anomalias;
+		return anomaly;
 	}
 	public void setAnomalias(Map<String, String> anomalias){
-		this.anomalias=anomalias;
+		this.anomaly=anomalias;
 	}
 	public Date getStart(){
 		return start;

@@ -1,0 +1,18 @@
+<div class="wrapper-calendar">
+	<div class="header-calendar">
+		<h1>{{dateSelect | date:'MMMM, yyyy'}}</h1>
+		<div>
+			<button (click)="changeMonth(-1)" class="btn-prev">{{SymbolPrev}}</button>
+		</div>
+		<div>
+			<button id="100" (click)="changeMonth(1)" class="btn-next">{{SymbolNext}}</button>
+		</div>
+	</div>
+	<ol>
+		<li *ngFor="let day of week" class="day-name">{{day | slice:0:1}}</li>
+        <li id={{day.value}} (click)="clickDay(day)" [style.gridColumnStart]="first ? day?.indexWeek : 'auto'"
+         *ngFor="let day of monthSelect;let first = first">
+			{{day?.value}}
+		</li>
+	</ol>
+</div>

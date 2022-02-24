@@ -1,0 +1,18 @@
+#wrapper-full-calendar{
+    display: flex;
+    user-select: none;
+}
+
+#wrapper-calendar-date-picker{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#wrapper-calendar-date-picker button{
+    margin-left: 70%;
+    margin-top: 20PX;
+}
+
+#calendarPicker{
+    margin-top: 40px;
+} 
