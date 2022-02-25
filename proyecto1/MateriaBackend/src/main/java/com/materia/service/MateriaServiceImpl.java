@@ -43,17 +43,15 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 	}
 
 	// Matricula a un estudiante en una materia
-	//Return 0 no se puede matricular debido a que se encuentra matriculado anteriormente
-	//Return 1 se pudo matricular satisfactoriamente
-	//Return 2 no se puede matricular debido a que no se encuentra el estudiante en base de datos
-	//Return 3 no se puede matricular debido a que no se encuentra el codigo de la materia ingresado
-	public Integer matricularEstudiante(String idUsuario, String codigoAutoMateria) throws Exception {
+	//Return "": no se puede matricular debido a que se encuentra matriculado anteriormente
+	//Return null: no se puede matricular 
+	public String matricularEstudiante(String idUsuario, String codigoAutoMateria) throws Exception {
 		for (MateriaDTO materia : getAll()) { 
 			//Valida el codigo de acceso autogenerado
 			if (compararCodigo(materia, codigoAutoMateria)) {	
 				Map<String, String> estudiantesMatriculados = materia.getStudents();
 				if (estudiantesMatriculados.containsKey(idUsuario)) {
-					return 0;// Ya está matriculado
+					return null;// Ya está matriculado
 				} else {
 					String estudiante = getNombreEstudiante(idUsuario);
 					//Valida que el estudiante este en la base de datos
@@ -64,14 +62,12 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 						// (async) Update one field
 						ApiFuture<WriteResult> future = docRef.update("students", estudiantesMatriculados);
 						future.get();
-						return 1;
-					}else {
-					return 2;
+						return materia.getId();
 					}
 				}
 			}
 		}
-		return 3;
+		return null;
 	}
 
 	// Desmatricula a un estudiante en una materia

@@ -66,9 +66,9 @@ public class MateriaRestController {
 	}
 	
 	@PostMapping(value = "/matricular/{id}/{codigo}")
-	public ResponseEntity<Integer> matricularUsuario(@PathVariable String id,@PathVariable String codigo) throws Exception {
+	public ResponseEntity<String> matricularUsuario(@PathVariable String id,@PathVariable String codigo) throws Exception {
 		
-		return new ResponseEntity<Integer>(materiaServiceAPI.matricularEstudiante(id, codigo), HttpStatus.OK) ;
+		return new ResponseEntity<String>(materiaServiceAPI.matricularEstudiante(id, codigo), HttpStatus.OK) ;
 		
 	}
 	@PostMapping(value = "/desmatricular/{id}/{codigo}")
