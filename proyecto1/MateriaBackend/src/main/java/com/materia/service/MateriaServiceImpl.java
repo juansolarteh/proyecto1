@@ -44,14 +44,15 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 
 	// Matricula a un estudiante en una materia
 	//Return "": no se puede matricular debido a que se encuentra matriculado anteriormente
-	//Return null: no se puede matricular 
+	//Return "-1": no se puede matricular debido el estudiante ya se encuentra matriculado en esa materia
+	//Return "-2": no se puede matricular debido a que no existe el codigo de la materia ingresado 
 	public String matricularEstudiante(String idUsuario, String codigoAutoMateria) throws Exception {
 		for (MateriaDTO materia : getAll()) { 
 			//Valida el codigo de acceso autogenerado
 			if (compararCodigo(materia, codigoAutoMateria)) {	
 				Map<String, String> estudiantesMatriculados = materia.getStudents();
 				if (estudiantesMatriculados.containsKey(idUsuario)) {
-					return null;// Ya está matriculado
+					return "-1";// Ya está matriculado
 				} else {
 					String estudiante = getNombreEstudiante(idUsuario);
 					//Valida que el estudiante este en la base de datos
@@ -67,7 +68,7 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 				}
 			}
 		}
-		return null;
+		return "-2";
 	}
 
 	// Desmatricula a un estudiante en una materia
