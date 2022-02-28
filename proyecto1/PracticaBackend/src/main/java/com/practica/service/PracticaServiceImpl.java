@@ -32,15 +32,13 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 		for (PracticaDTO practica : getAll()) {
 			if (practica.getCourse_id() != null) {
 				if (practica.getCourse_id().compareTo(idMateria) == 0) {
-					if (new Date().after(practica.getStart_available())
-							|| new Date().equals(practica.getStart_available())) {
 						if (new Date().before(practica.getEnd_available())
 								|| new Date().equals(practica.getEnd_available())) {
 							practica.setCourse_name(getCourse(practica.getCourse_id()));
 							practica.setTopic_name(getTopic(practica.getTopic_id()));
 							result.add(practica);
 						}
-					}
+					
 				}
 			}
 		}
