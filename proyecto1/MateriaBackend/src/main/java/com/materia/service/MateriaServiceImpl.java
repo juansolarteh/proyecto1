@@ -136,6 +136,16 @@ public class MateriaServiceImpl extends GenericServiceImpl<Materia, MateriaDTO> 
 		}
 		return result;
 	}
+	
+	public boolean estudiantePerteneceMateria(String idEstudiante, String idMateria) throws Exception {
+		if(get(idMateria)!=null) {
+			if(get(idMateria).getStudents().containsKey(idEstudiante)) {
+			return true;
+			}
+		}
+	
+		return false;
+	}
 
 	private boolean compararCodigo(MateriaDTO materia, String codigo) {
 		try {

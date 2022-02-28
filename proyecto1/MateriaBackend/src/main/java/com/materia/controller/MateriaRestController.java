@@ -84,4 +84,10 @@ public class MateriaRestController {
 		return new ResponseEntity<String>(materiaServiceAPI.getSubject(id), HttpStatus.OK);
 		
 	}
+	
+	@GetMapping(value = "/verificar/{idEstudiante}")
+	public ResponseEntity<Boolean> estudiantePerteneceMateria(@RequestBody String idMateria, @PathVariable String idEstudiante) throws Exception {
+		
+			return new ResponseEntity<Boolean>(materiaServiceAPI.estudiantePerteneceMateria(idEstudiante, idMateria), HttpStatus.OK);
+	}
 }

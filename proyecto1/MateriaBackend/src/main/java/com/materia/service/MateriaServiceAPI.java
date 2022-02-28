@@ -12,4 +12,5 @@ public interface MateriaServiceAPI extends GenericServiceAPI<Materia, MateriaDTO
 	boolean desmatricularEstudiante(String id, String codigo) throws Exception;
 	String getSubject(String id) throws Exception;
 	String getTeacher(Integer id) throws Exception;
+	boolean estudiantePerteneceMateria(String idEstudiante, String idMateria) throws Exception;
 }
