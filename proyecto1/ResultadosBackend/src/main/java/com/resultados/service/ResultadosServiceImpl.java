@@ -1,5 +1,8 @@
 package com.resultados.service;
 
+import java.io.BufferedWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.cloud.firestore.WriteResult;
 import com.google.firestore.v1beta1.Document;
+import com.csvreader.CsvWriter;
 import com.google.api.core.ApiFuture;
+import com.google.api.services.storage.Storage;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -22,11 +27,17 @@ import com.resultados.commons.GenericServiceImpl;
 import com.resultados.dto.PracticesDTO;
 import com.resultados.model.Practices;
 
+import io.grpc.netty.shaded.io.netty.channel.unix.Buffer;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 @Service
 public class ResultadosServiceImpl  extends GenericServiceImpl<Practices, PracticesDTO> implements PracticesAPI{
 	
 	@Autowired
 	private Firestore firestore;
+	
 
 	@Override
 	public CollectionReference getCollection() {
@@ -119,6 +130,46 @@ public class ResultadosServiceImpl  extends GenericServiceImpl<Practices, Practi
 		}
 		return result;
 	}
-	//El lider id debe estar en mapa estudiantes 
+	public String crearCSV(String idResultado) throws Exception {
+		String nombreArchivo="./datos"+idResultado+".csv";
+		try	{
+			boolean existe=new File(nombreArchivo).exists();
+			if(existe) {
+				File archivoDatos=new  File(nombreArchivo);
+				archivoDatos.delete();
+			}
+			//Crerar el archivo
+			CsvWriter salidaCSV=new CsvWriter(new FileWriter(nombreArchivo, true), ';');
+			
+			//
+			salidaCSV.write("Estudiantes: ");
+			
+			for(PracticesDTO practice : getAll()) {
+				if(practice!=null) {
+					if(practice.getId().compareTo(idResultado)==0) {
+						for(String student: practice.getStudents().values()) {
+							salidaCSV.write(student);
+						}
+						salidaCSV.endRecord();
+						salidaCSV.write("Asistentes: ");
+						
+						for(String student: practice.getAttendees().values()) {
+							salidaCSV.write(student);
+						}
+						salidaCSV.endRecord();
+						break;
+					}
+				}
+			}
+			salidaCSV.close();
+			
+			return nombreArchivo;
+			
+		}catch (IOException e) {
+			e.printStackTrace();
+			return "Ocurrio un error";
+		}
+		
+	}
 	//pasar resultados a pdf
 }

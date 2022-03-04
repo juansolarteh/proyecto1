@@ -76,4 +76,17 @@ public class PracticesRestController {
 		practicesServiceAPI.addData(idResultado, variable, value);
 		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
 	}
+	@GetMapping(value = "/crearCSV/{id}")
+	public ResponseEntity<String> crearCSV(@PathVariable String id) throws Exception {
+		PracticesDTO planta = practicesServiceAPI.get(id);
+		String rta="";
+		if (planta != null) {
+			rta=practicesServiceAPI.crearCSV(id);
+		} else {
+			new ResponseEntity<String>(rta, HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<String>(rta, HttpStatus.OK);
+	}
+	
 }
