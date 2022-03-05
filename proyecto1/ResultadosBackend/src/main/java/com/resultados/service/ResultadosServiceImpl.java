@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firestore.v1beta1.Document;
 import com.csvreader.CsvWriter;
 import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageException;
+import com.google.api.services.storage.Storage;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -32,19 +29,8 @@ import com.resultados.model.Practices;
 
 import io.grpc.netty.shaded.io.netty.channel.unix.Buffer;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.StorageOptions;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Service
 public class ResultadosServiceImpl  extends GenericServiceImpl<Practices, PracticesDTO> implements PracticesAPI{
@@ -176,10 +162,8 @@ public class ResultadosServiceImpl  extends GenericServiceImpl<Practices, Practi
 				}
 			}
 			salidaCSV.close();
-			subirArchivo("proyecto-1-94c3c", "proyecto-1-94c3c.appspot.com", idResultado+".csv", nombreArchivo);
-			String destFilePath="./prueba"+idResultado+".csv";
-			URL url=generateV4GetObjectSignedUrl("proyecto-1-94c3c", "proyecto-1-94c3c.appspot.com", idResultado+".csv");
-			return url.toString();
+			
+			return nombreArchivo;
 			
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -187,87 +171,5 @@ public class ResultadosServiceImpl  extends GenericServiceImpl<Practices, Practi
 		}
 		
 	}
-	private void subirArchivo(String projectId, String bucketName, String objectName, String filePath) throws IOException {
-		    // The ID of your GCP project
-		    // String projectId = "your-project-id";
-
-		    // The ID of your GCS bucket
-		    // String bucketName = "your-unique-bucket-name";
-
-		    // The ID of your GCS object
-		    // String objectName = "your-object-name";
-
-		    // The path to your file to upload
-		    // String filePath = "path/to/your/file"
-			StorageOptions storageOptions = StorageOptions.newBuilder()
-			       .setProjectId("proyecto-1-94c3c")
-			        .setCredentials(GoogleCredentials.fromStream(new 
-			         FileInputStream("./ClaveProyecto.json"))).build();
-			    Storage storage = storageOptions.getService();
-
-		    //Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-		    BlobId blobId = BlobId.of(bucketName, objectName);
-		    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-		    storage.create(blobInfo, Files.readAllBytes(Paths.get(filePath)));
-		    storage.createAcl(blobId, Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
-
-		    System.out.println(
-		        "File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
-		  }
-	
-
-
-	  private  void descargarArchivo(String projectId, String bucketName, String objectName, String destFilePath)throws IOException {
-	    // The ID of your GCP project
-	    // String projectId = "your-project-id";
-
-	    // The ID of your GCS bucket
-	    // String bucketName = "your-unique-bucket-name";
-
-	    // The ID of your GCS object
-	    // String objectName = "your-object-name";
-
-	    // The path to which the file should be downloaded
-	    // String destFilePath = "/local/path/to/file.txt";
-		  StorageOptions storageOptions = StorageOptions.newBuilder()
-			       .setProjectId("proyecto-1-94c3c")
-			        .setCredentials(GoogleCredentials.fromStream(new 
-			         FileInputStream("./ClaveProyecto.json"))).build();
-			    Storage storage = storageOptions.getService();
-
-
-	    Blob blob = storage.get(BlobId.of(bucketName, objectName));
-	    blob.downloadTo(Paths.get(destFilePath));
-
-	    System.out.println(
-	        "Downloaded object "
-	            + objectName
-	            + " from bucket name "
-	            + bucketName
-	            + " to "
-	            + destFilePath);
-	  }
-	  private URL generateV4GetObjectSignedUrl(String projectId, String bucketName, String objectName) throws StorageException,IOException {
-		    // String projectId = "my-project-id";
-		    // String bucketName = "my-bucket";
-		    // String objectName = "my-object";
-
-		  StorageOptions storageOptions = StorageOptions.newBuilder()
-			       .setProjectId("proyecto-1-94c3c")
-			        .setCredentials(GoogleCredentials.fromStream(new 
-			         FileInputStream("./ClaveProyecto.json"))).build();
-			    Storage storage = storageOptions.getService();
-
-		    // Define resource
-		    BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(bucketName, objectName)).build();
-
-		    URL url =storage.signUrl(blobInfo, 15, TimeUnit.MINUTES, Storage.SignUrlOption.withV4Signature());
-
-		    System.out.println("Generated GET signed URL:");
-		    System.out.println(url);
-		    System.out.println("You can use this URL with any user agent, for example:");
-		    System.out.println("curl '" + url + "'");
-		    return url;
-		  }
-	
+	//pasar resultados a pdf
 }
