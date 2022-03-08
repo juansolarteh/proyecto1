@@ -10,10 +10,37 @@ public class Practices {
 	private Map<String, String> students;
 	private Map<String, String> attendees;
 	private Map<String, String> data;
+	private Map<String, String> anomaly;
+	private int next_anomaly_id;
+	private String leaderName;
+	private String practiceName;
 	private Date start;
 	private Date end;
 	
-	
+	public String getLeaderName() {
+		return leaderName;
+	}
+	public void setLeaderName(String leaderName) {
+		this.leaderName=leaderName;
+	}
+	public String getPracticeName() {
+		return practiceName;
+	}
+	public void setPracticeName(String practiceName) {
+		this.practiceName=practiceName;
+	}
+	public void setAnomalias(Map<String, String> anomalias){
+		this.anomaly=anomalias;
+	}
+	public Map<String, String> getAnomalias(){
+		return this.anomaly;
+	}
+	public int getNextAnomalyId() {
+		return next_anomaly_id;
+	}
+	public void setNextAnomalyId(int next_anomaly_id) {
+		this.next_anomaly_id = next_anomaly_id;
+	}
 	public String getWorkshop_id() {
 		return workshop_id;
 	}

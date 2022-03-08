@@ -37,7 +37,7 @@ public class PracticesRestController {
 	}
 	
 	@GetMapping(value = "/find/student/{idStudent}")
-	public List<PracticesDTO> findByEmail(@PathVariable String idStudent) throws Exception {
+	public List<PracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
 		return practicesServiceAPI.getByStudent(idStudent);
 	}
 	
@@ -58,6 +58,7 @@ public class PracticesRestController {
 
 	@GetMapping(value = "/delete/{id}")
 	public ResponseEntity<PracticesDTO> delete(@PathVariable String id) throws Exception {
+
 		PracticesDTO agenda = practicesServiceAPI.get(id);
 		if (agenda != null) {
 			practicesServiceAPI.delete(id);
@@ -66,5 +67,37 @@ public class PracticesRestController {
 		}
 
 		return new ResponseEntity<PracticesDTO>(agenda, HttpStatus.OK);
+	}
+	public ResponseEntity<String> addAnomalia(@PathVariable String idResultado,@RequestBody String anomalia) throws Exception {
+		practicesServiceAPI.reportarAnomalia(idResultado, anomalia);
+		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
+	}
+	@PostMapping(value = "/addStudent/{idResultado}/{idStudent}")
+	public ResponseEntity<String> addStudent(@PathVariable String idResultado,@PathVariable String idStudent) throws Exception {
+		practicesServiceAPI.addStudents(idResultado, idStudent);
+		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
+	}
+	@PostMapping(value = "/addAttende/{idResultado}/{idStudent}")
+	public ResponseEntity<String> addAttende(@PathVariable String idResultado,@PathVariable String idStudent) throws Exception {
+		practicesServiceAPI.addAttendees(idResultado, idStudent);
+		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
+	}
+	@PostMapping(value = "/addData/{idResultado}/{variable}/{value}")
+	public ResponseEntity<String> addData(@PathVariable String idResultado,@PathVariable String variable,@PathVariable String value) throws Exception {
+		practicesServiceAPI.addData(idResultado, variable, value);
+		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
+	}
+	@GetMapping(value = "/crearCSV/{id}")
+	public ResponseEntity<String> crearCSV(@PathVariable String id) throws Exception {
+		PracticesDTO planta = practicesServiceAPI.get(id);
+		String rta="";
+		if (planta != null) {
+			rta=practicesServiceAPI.crearCSV(id);
+		} else {
+			new ResponseEntity<String>(rta, HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<String>(rta, HttpStatus.OK);
+	
 	}
 }

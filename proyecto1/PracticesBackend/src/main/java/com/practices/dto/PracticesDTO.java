@@ -11,10 +11,31 @@ public class PracticesDTO {
 	private Map<String, String> students;
 	private Map<String, String> attendees;
 	private Map<String, String> data;
+	private Map<String, String> anomalias;
+	private String leaderName;
+	private String practiceName;
+	private int next_anomaly_id;
 	private Date start;
 	private Date end;
 	
-	
+	public String getLeaderName() {
+		return leaderName;
+	}
+	public void setLeaderName(String leaderName) {
+		this.leaderName=leaderName;
+	}
+	public String getPracticeName() {
+		return practiceName;
+	}
+	public void setPracticeName(String practiceName) {
+		this.practiceName=practiceName;
+	}
+	public int getNextAnomalyId() {
+		return next_anomaly_id;
+	}
+	public void setNextAnomalyId(int next_anomaly_id) {
+		this.next_anomaly_id = next_anomaly_id;
+	}
 	public String getId() {
 		return id;
 	}
@@ -62,6 +83,12 @@ public class PracticesDTO {
 	}
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+	public Map<String, String> getAnomalias(){
+		return anomalias;
+	}
+	public void setAnomalias(Map<String, String> anomalias){
+		this.anomalias=anomalias;
 	}
 	
 }
