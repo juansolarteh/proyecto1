@@ -37,10 +37,10 @@ public class PracticesRestController {
 		return practicesServiceAPI.get(id);
 	}
 	
-//	@GetMapping(value = "/find/student/{idStudent}")
-//	public List<SendPracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
-//		return practicesServiceAPI.getByStudent(idStudent);
-//	}
+	@GetMapping(value = "/find/student/{idStudent}")
+	public List<SendPracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
+		return practicesServiceAPI.getByStudent(idStudent);
+	}
 	
 	@GetMapping(value = "/find/topic/{idTopic}")
 	public List<String> findDatesByTopic(@PathVariable String idTopic) throws Exception {
@@ -83,11 +83,7 @@ public class PracticesRestController {
 		practicesServiceAPI.addAttendees(idResultado, idStudent);
 		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
 	}
-	@PostMapping(value = "/addData/{idResultado}/{variable}/{value}")
-	public ResponseEntity<String> addData(@PathVariable String idResultado,@PathVariable String variable,@PathVariable String value) throws Exception {
-		practicesServiceAPI.addData(idResultado, variable, value);
-		return new ResponseEntity<String>(idResultado, HttpStatus.OK);
-	}
+
 	@GetMapping(value = "/crearCSV/{id}")
 	public ResponseEntity<String> crearCSV(@PathVariable String id) throws Exception {
 		PracticesDTO planta = practicesServiceAPI.get(id);

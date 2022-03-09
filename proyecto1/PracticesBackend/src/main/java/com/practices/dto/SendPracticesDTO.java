@@ -10,7 +10,7 @@ public class SendPracticesDTO {
 	private String leader_id;
 	private Map<String, String> students;
 	private Map<String, String> attendees;
-	private Map<String, String> data;
+	private Map<String, Map<String, Float>> data;
 	private Map<String, String> anomalias;
 	private String leaderName;
 	private String practiceName;
@@ -66,12 +66,6 @@ public class SendPracticesDTO {
 	public void setAttendees(Map<String, String> attendees) {
 		this.attendees = attendees;
 	}
-	public Map<String, String> getData() {
-		return data;
-	}
-	public void setData(Map<String, String> data) {
-		this.data = data;
-	}
 	
 	public Map<String, String> getAnomalias(){
 		return anomalias;
@@ -96,6 +90,12 @@ public class SendPracticesDTO {
 	}
 	public void setEnd(String end) {
 		this.end = end;
+	}
+	public Map<String, Map<String, Float>> getData() {
+		return data;
+	}
+	public void setData(Map<String, Map<String, Float>> data) {
+		this.data = data;
 	}
 	
 }
