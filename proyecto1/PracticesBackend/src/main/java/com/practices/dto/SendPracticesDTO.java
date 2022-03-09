@@ -16,7 +16,7 @@ public class SendPracticesDTO {
 	private String practiceName;
 	private int next_anomaly_id;
 	private String start;
-	private String end;
+	private String end; 
 	
 	public String getLeaderName() {
 		return leaderName;
