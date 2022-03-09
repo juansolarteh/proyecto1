@@ -1,6 +1,7 @@
 package com.practica.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -13,6 +14,7 @@ public class Practica {
 	private Date end_available;
 	private String course_name;
 	private String topic_name;
+	private Map<String,List<Float>> Variables;
 	
 	public Map<String, String> getData() {
 		return data;
@@ -55,6 +57,12 @@ public class Practica {
 	}
 	public void setTopic_name(String topic_name) {
 		this.topic_name = topic_name;
+	}
+	public Map<String, List<Float>> getVariables() {
+		return Variables;
+	}
+	public void setVariables(Map<String, List<Float>> variables) {
+		Variables = variables;
 	}
 	
 	
