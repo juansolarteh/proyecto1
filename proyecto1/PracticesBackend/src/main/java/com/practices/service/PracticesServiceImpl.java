@@ -21,6 +21,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.practices.commons.GenericServiceImpl;
 import com.practices.dto.PracticesDTO;
+import com.practices.dto.SendPracticesDTO;
 import com.practices.model.Practices;
 
 @Service
@@ -35,8 +36,10 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 	}
 	
 	@Override
-	public List<PracticesDTO> getByStudent(String idStudent) throws Exception {
-		return getFromMapByKey("students", idStudent);
+	public List<SendPracticesDTO> getByStudent(String idStudent) throws Exception {
+		List<PracticesDTO> lista = getFromMapByKey("students", idStudent);
+		List<SendPracticesDTO> listaAux = convertirLista(lista);
+		return listaAux;
 	}
 	
 	@Override
@@ -187,4 +190,33 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 		}
 		return result;
 	}
+	
+	private List<SendPracticesDTO> convertirLista(List<PracticesDTO> lista){
+		List<SendPracticesDTO> listAux = new ArrayList<>();
+		SimpleDateFormat formato1 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formato2 = new SimpleDateFormat("HH:mm:ss");
+		for (int i = 0; i < lista.size(); i++) {
+			SendPracticesDTO practices = new SendPracticesDTO();
+			practices.setTopic_id(lista.get(i).getTopic_id());
+			practices.setId(lista.get(i).getId());
+			practices.setWorkshop_id(lista.get(i).getWorkshop_id());
+			practices.setLeader_id(lista.get(i).getLeader_id());
+			practices.setStudents(lista.get(i).getStudents());
+			practices.setAttendees(lista.get(i).getAttendees());
+			practices.setData(lista.get(i).getData());
+			practices.setAnomalias(lista.get(i).getAnomalias());
+			practices.setLeaderName(lista.get(i).getLeaderName());
+			practices.setPracticeName(lista.get(i).getPracticeName());
+			practices.setNextAnomalyId(lista.get(i).getNextAnomalyId());
+			String fechaInicio = formato1.format(lista.get(i).getStart())+"T"+formato2.format(lista.get(i).getStart());
+			String fechaFin = formato1.format(lista.get(i).getEnd())+"T"+formato2.format(lista.get(i).getEnd());
+			practices.setStart(fechaInicio);
+			practices.setEnd(fechaFin);
+			listAux.add(practices);
+		}
+		return listAux;
+		
+	}
+	
+	
 }

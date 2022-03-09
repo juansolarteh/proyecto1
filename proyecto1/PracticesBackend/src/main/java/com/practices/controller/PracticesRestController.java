@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practices.dto.PracticesDTO;
+import com.practices.dto.SendPracticesDTO;
 import com.practices.model.Practices;
 import com.practices.service.PracticesServiceAPI;
 
@@ -37,7 +38,7 @@ public class PracticesRestController {
 	}
 	
 	@GetMapping(value = "/find/student/{idStudent}")
-	public List<PracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
+	public List<SendPracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
 		return practicesServiceAPI.getByStudent(idStudent);
 	}
 	

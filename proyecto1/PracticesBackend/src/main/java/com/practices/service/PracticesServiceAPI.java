@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.practices.commons.GenericServiceAPI;
 import com.practices.dto.PracticesDTO;
+import com.practices.dto.SendPracticesDTO;
 import com.practices.model.Practices;
 
 public interface PracticesServiceAPI extends GenericServiceAPI<Practices, PracticesDTO>{
-	List<PracticesDTO> getByStudent(String idStudent) throws Exception;
+	List<SendPracticesDTO> getByStudent(String idStudent) throws Exception;
 	List<String> getDatesByTopic(String idTopic) throws Exception;
 	public boolean reportarAnomalia(String idResultado,String anomalia) throws Exception;
 	public boolean addStudents(String idResultado, String idStudent) throws Exception;
