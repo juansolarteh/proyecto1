@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Practices {
 
+	private String topic_id;
 	private String workshop_id;
 	private String leader_id;
 	private Map<String, String> students;
@@ -83,5 +84,10 @@ public class Practices {
 	public void setEnd(Date end) {
 		this.end = end;
 	}
-	
+	public String getTopic_id() {
+		return topic_id;
+	}
+	public void setTopic_id(String topic_id) {
+		this.topic_id = topic_id;
+	}
 }

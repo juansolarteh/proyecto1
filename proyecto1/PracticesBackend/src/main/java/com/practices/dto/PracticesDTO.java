@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class PracticesDTO {
-
+	
+	private String topic_id;
 	private String id;
 	private String workshop_id;
 	private String leader_id;
@@ -90,5 +91,13 @@ public class PracticesDTO {
 	public void setAnomalias(Map<String, String> anomalias){
 		this.anomalias=anomalias;
 	}
+	public String getTopic_id() {
+		return topic_id;
+	}
+	public void setTopic_id(String topic_id) {
+		this.topic_id = topic_id;
+	}
+	
+	
 	
 }
