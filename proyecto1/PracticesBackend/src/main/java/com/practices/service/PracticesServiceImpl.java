@@ -25,7 +25,7 @@ import com.practices.dto.SendPracticesDTO;
 import com.practices.model.Practices;
 
 @Service
-public class PracticesServiceImpl  extends GenericServiceImpl<Practices, PracticesDTO> implements PracticesServiceAPI{
+public class PracticesServiceImpl  extends GenericServiceImpl<Practices, PracticesDTO> implements PracticesServiceAPI{ 
 	
 	@Autowired
 	private Firestore firestore;
@@ -118,23 +118,6 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 		return false;
 	}
 
-//	@Override
-//	public boolean addData(String idResultado, String variable, String value) throws Exception {
-//		for(PracticesDTO practice : getAll()) {
-//			if(practice!=null) {
-//				if(practice.getId().compareTo(idResultado)==0) {
-//					Map<String, String> data=practice.getData();
-//						data.put(variable, value);
-//						//Actualización en la base de datos
-//						DocumentReference docRef=firestore.collection("Practices").document(practice.getId());
-//						ApiFuture<WriteResult> future=docRef.update("data",data);
-//						future.get();;
-//						return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
 
 	@Override
 	public String crearCSV(String idResultado) throws Exception {
