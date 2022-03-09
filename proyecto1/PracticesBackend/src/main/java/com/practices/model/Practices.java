@@ -14,33 +14,8 @@ public class Practices {
 	private int next_anomaly_id;
 	private String leaderName;
 	private String practiceName;
-	private Date start;
-	private Date end;
-	
-	public String getLeaderName() {
-		return leaderName;
-	}
-	public void setLeaderName(String leaderName) {
-		this.leaderName=leaderName;
-	}
-	public String getPracticeName() {
-		return practiceName;
-	}
-	public void setPracticeName(String practiceName) {
-		this.practiceName=practiceName;
-	}
-	public void setAnomalias(Map<String, String> anomalias){
-		this.anomaly=anomalias;
-	}
-	public Map<String, String> getAnomalias(){
-		return this.anomaly;
-	}
-	public int getNextAnomalyId() {
-		return next_anomaly_id;
-	}
-	public void setNextAnomalyId(int next_anomaly_id) {
-		this.next_anomaly_id = next_anomaly_id;
-	}
+	private String start;
+	private String end;
 	public String getWorkshop_id() {
 		return workshop_id;
 	}
@@ -71,17 +46,43 @@ public class Practices {
 	public void setData(Map<String, String> data) {
 		this.data = data;
 	}
-	public Date getStart() {
+	public Map<String, String> getAnomaly() {
+		return anomaly;
+	}
+	public void setAnomaly(Map<String, String> anomaly) {
+		this.anomaly = anomaly;
+	}
+	public int getNext_anomaly_id() {
+		return next_anomaly_id;
+	}
+	public void setNext_anomaly_id(int next_anomaly_id) {
+		this.next_anomaly_id = next_anomaly_id;
+	}
+	public String getLeaderName() {
+		return leaderName;
+	}
+	public void setLeaderName(String leaderName) {
+		this.leaderName = leaderName;
+	}
+	public String getPracticeName() {
+		return practiceName;
+	}
+	public void setPracticeName(String practiceName) {
+		this.practiceName = practiceName;
+	}
+	public String getStart() {
 		return start;
 	}
-	public void setStart(Date start) {
+	public void setStart(String start) {
 		this.start = start;
 	}
-	public Date getEnd() {
+	public String getEnd() {
 		return end;
 	}
-	public void setEnd(Date end) {
+	public void setEnd(String end) {
 		this.end = end;
 	}
+	
+	
 	
 }

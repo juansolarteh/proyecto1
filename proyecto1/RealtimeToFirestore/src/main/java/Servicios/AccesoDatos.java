@@ -1,11 +1,8 @@
-package com.resultados;
+package Servicios;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Map;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -16,22 +13,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-@SpringBootApplication
-public class AgendaBackendApplication {
+import Modelo.Planta1;
 
-	public static void main(String[] args) {
-		SpringApplication.run(AgendaBackendApplication.class, args);
-		System.out.println("Hellooooooo");
-		try {
-			conectar();
-			
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-	}
-	public static void conectar() throws IOException {
+public class AccesoDatos {
+	public void conectar() throws IOException {
 		// Fetch the service account key JSON file contents
 		FileInputStream serviceAccount = new FileInputStream("./ClaveProyectoRealTime.json");
 
@@ -44,7 +29,7 @@ public class AgendaBackendApplication {
 		FirebaseApp firebaseApp=FirebaseApp.initializeApp(options,"secondary");
 		System.out.println("Paso 1");
 		// As an admin, the app has access to read and write all data, regardless of Security Rules
-		DatabaseReference ref1 = FirebaseDatabase.getInstance(firebaseApp).getReference("Planta1/finalizado");
+		DatabaseReference ref1 = FirebaseDatabase.getInstance(firebaseApp).getReference("Planta1");
 		DatabaseReference ref2 = FirebaseDatabase.getInstance(firebaseApp).getReference("Planta2");
 		DatabaseReference ref3 = FirebaseDatabase.getInstance(firebaseApp).getReference("Planta3");
 		System.out.println("Paso 2");
@@ -52,9 +37,12 @@ public class AgendaBackendApplication {
 		ref1.addValueEventListener( new ValueEventListener() {
 		  @Override
 		  public void onDataChange(DataSnapshot dataSnapshot) {
-		    Object document = dataSnapshot.getValue();
-		    System.out.println("LLegó");
-		    System.out.println(document.toString());
+		    Planta1 planta1 = dataSnapshot.getValue(Planta1.class);
+		    
+		    if(planta1.getFinalizado()) {
+		    	System.out.println("Pracica finalizada");
+		    }
+		    
 		  }
 
 		  @Override
@@ -65,29 +53,5 @@ public class AgendaBackendApplication {
 		
 		
 	}
-	public static void leer() {
-		System.out.println("eNTRO A LEER");
-		// Get a reference to our posts
-		final FirebaseDatabase database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("/Planta1");
-
-		// Attach a listener to read the data at our posts reference
-		ref.addValueEventListener(new ValueEventListener() {
-		  @Override
-		  public void onDataChange(DataSnapshot dataSnapshot) {
-		    String post = dataSnapshot.getValue().toString();
-		    System.out.println(post);
-		  }
-
-		  @Override
-		  public void onCancelled(DatabaseError databaseError) {
-		    System.out.println("The read failed: " + databaseError.getCode());
-		  }
-		});
-	}
-
-
 }
-class Planta{
-	
-}
+
