@@ -78,18 +78,49 @@ public class AccesoDatos {
 				} catch (InterruptedException | ExecutionException e) {
 					System.out.println(e.getMessage());
 				}
-		    	
 		    }
-		    
 		  }
-
 		  @Override
 		  public void onCancelled(DatabaseError error) {
 			  
 		  }
 		});
-		
-		
+		ref2.addValueEventListener( new ValueEventListener() {
+			  @Override
+			  public void onDataChange(DataSnapshot dataSnapshot) {
+			    Planta2 planta2 = dataSnapshot.getValue(Planta2.class);
+			    if(planta2.getFinalizado()) {
+			    	try {
+						String idPractice=ConsultarId("Planta2");
+						migrarValoresPlanta2(idPractice, planta2);
+					} catch (InterruptedException | ExecutionException e) {
+						System.out.println(e.getMessage());
+					}
+			    }
+			  }
+			  @Override
+			  public void onCancelled(DatabaseError error) {
+				  
+			  }
+			});
+		ref3.addValueEventListener( new ValueEventListener() {
+			  @Override
+			  public void onDataChange(DataSnapshot dataSnapshot) {
+			    Planta3 planta3 = dataSnapshot.getValue(Planta3.class);
+			    if(planta3.getFinalizado()) {
+			    	try {
+						String idPractice=ConsultarId("Planta3");
+						migrarValoresPlanta3(idPractice, planta3);
+					} catch (InterruptedException | ExecutionException e) {
+						System.out.println(e.getMessage());
+					}
+			    }
+			  }
+			  @Override
+			  public void onCancelled(DatabaseError error) {
+				  
+			  }
+			});
 	}
 	private String ConsultarId(String prmPlanta) throws InterruptedException, ExecutionException  {
 		String result="";
