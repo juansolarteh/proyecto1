@@ -16,4 +16,5 @@ public interface PracticesServiceAPI extends GenericServiceAPI<Practices, Practi
 	public boolean addAttendees(String idResultado, String idStudent) throws Exception;
 	//public boolean addData(String idResultado, String variable, String value) throws Exception;
 	public String crearCSV(String idResultado) throws Exception;
+	
 }
