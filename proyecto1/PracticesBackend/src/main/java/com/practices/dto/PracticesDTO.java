@@ -11,7 +11,7 @@ public class PracticesDTO {
 	private String leader_id;
 	private Map<String, String> students;
 	private Map<String, String> attendees;
-	private Map<String, String> data;
+	private Map<String, Map<String, Float>> data;
 	private Map<String, String> anomalias;
 	private String leaderName;
 	private String practiceName;
@@ -67,10 +67,10 @@ public class PracticesDTO {
 	public void setAttendees(Map<String, String> attendees) {
 		this.attendees = attendees;
 	}
-	public Map<String, String> getData() {
+	public Map<String, Map<String, Float>> getData() {
 		return data;
 	}
-	public void setData(Map<String, String> data) {
+	public void setData(Map<String, Map<String, Float>> data) {
 		this.data = data;
 	}
 	public Date getStart() {

@@ -37,10 +37,10 @@ public class PracticesRestController {
 		return practicesServiceAPI.get(id);
 	}
 	
-	@GetMapping(value = "/find/student/{idStudent}")
-	public List<SendPracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
-		return practicesServiceAPI.getByStudent(idStudent);
-	}
+//	@GetMapping(value = "/find/student/{idStudent}")
+//	public List<SendPracticesDTO> findByStudentId(@PathVariable String idStudent) throws Exception {
+//		return practicesServiceAPI.getByStudent(idStudent);
+//	}
 	
 	@GetMapping(value = "/find/topic/{idTopic}")
 	public List<String> findDatesByTopic(@PathVariable String idTopic) throws Exception {

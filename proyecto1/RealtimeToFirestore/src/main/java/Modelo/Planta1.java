@@ -5,18 +5,18 @@ import java.util.Map;
 public class Planta1 {
 	//public int check;
 	public Boolean datos;
-	public Map<String, Integer> elongaciones;
+	public Map<String, Float> elongaciones;
 	public Boolean finalizado;	
 	public Boolean iniciar;
 	public int nRep;
 	public int peso;
-	public Map<String, Integer> pesos;
+	public Map<String, Float> pesos;
 	public Planta1() {
 		
 	}
 	
-	public Planta1(Boolean datos, Map<String, Integer> elongaciones, Boolean finalizado, Boolean iniciar,
-			int nRep, int peso, Map<String, Integer> pesos) {
+	public Planta1(Boolean datos, Map<String, Float> elongaciones, Boolean finalizado, Boolean iniciar,
+			int nRep, int peso, Map<String, Float> pesos) {
 		super();
 		//this.check = check;
 		this.datos = datos;
@@ -40,10 +40,10 @@ public class Planta1 {
 	public void setDatos(Boolean datos) {
 		this.datos = datos;
 	}
-	public Map<String, Integer> getElongaciones() {
+	public Map<String, Float> getElongaciones() {
 		return elongaciones;
 	}
-	public void setElongaciones(Map<String, Integer> elongaciones) {
+	public void setElongaciones(Map<String, Float> elongaciones) {
 		this.elongaciones = elongaciones;
 	}
 	public Boolean getFinalizado() {
@@ -70,10 +70,10 @@ public class Planta1 {
 	public void setPeso(int peso) {
 		this.peso = peso;
 	}
-	public Map<String, Integer> getPesos() {
+	public Map<String, Float> getPesos() {
 		return pesos;
 	}
-	public void setPesos(Map<String, Integer> pesos) {
+	public void setPesos(Map<String, Float> pesos) {
 		this.pesos = pesos;
 	}
 	

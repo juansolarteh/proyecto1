@@ -10,7 +10,7 @@ public class Practices {
 	private String leader_id;
 	private Map<String, String> students;
 	private Map<String, String> attendees;
-	private Map<String, String> data;
+	private Map<String, Map<String, Float>> data;
 	private Map<String, String> anomaly;
 	private int next_anomaly_id;
 	private String leaderName;
@@ -66,10 +66,10 @@ public class Practices {
 	public void setAttendees(Map<String, String> attendees) {
 		this.attendees = attendees;
 	}
-	public Map<String, String> getData() {
+	public Map<String, Map<String, Float>> getData() {
 		return data;
 	}
-	public void setData(Map<String, String> data) {
+	public void setData(Map<String, Map<String, Float>> data) {
 		this.data = data;
 	}
 	public Date getStart() {
