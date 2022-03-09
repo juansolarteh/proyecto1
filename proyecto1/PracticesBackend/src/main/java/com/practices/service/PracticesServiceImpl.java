@@ -59,12 +59,12 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 			if(practice!=null) {
 				if(practice.getId().compareTo(idResultado)==0) {
 					Map<String, String> anomalias=practice.getAnomalias();
-					anomalias.put(String.valueOf(practice.getNext_anomaly_id()), anomalia);
+					anomalias.put(String.valueOf(practice.getNextAnomalyId()), anomalia);
 						//Actualización en la base de datos
 						DocumentReference docRef=firestore.collection("Practices").document(practice.getId());
 						ApiFuture<WriteResult> future=docRef.update("anomalias",anomalias);
 						future.get();
-						int aux=practice.getNext_anomaly_id();
+						int aux=practice.getNextAnomalyId();
 						aux=aux+1;
 						ApiFuture<WriteResult> futur=docRef.update("nextAnomalyId",aux);
 						futur.get();

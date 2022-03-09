@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Practices {
+
 	private String topic_id;
 	private String workshop_id;
 	private String leader_id;
@@ -14,14 +15,32 @@ public class Practices {
 	private int next_anomaly_id;
 	private String leaderName;
 	private String practiceName;
-	private String start;
-	private String end;
+	private Date start;
+	private Date end;
 	
-	public String getTopic_id() {
-		return topic_id;
+	public String getLeaderName() {
+		return leaderName;
 	}
-	public void setTopic_id(String topic_id) {
-		this.topic_id = topic_id;
+	public void setLeaderName(String leaderName) {
+		this.leaderName=leaderName;
+	}
+	public String getPracticeName() {
+		return practiceName;
+	}
+	public void setPracticeName(String practiceName) {
+		this.practiceName=practiceName;
+	}
+	public void setAnomalias(Map<String, String> anomalias){
+		this.anomaly=anomalias;
+	}
+	public Map<String, String> getAnomalias(){
+		return this.anomaly;
+	}
+	public int getNextAnomalyId() {
+		return next_anomaly_id;
+	}
+	public void setNextAnomalyId(int next_anomaly_id) {
+		this.next_anomaly_id = next_anomaly_id;
 	}
 	public String getWorkshop_id() {
 		return workshop_id;
@@ -53,43 +72,22 @@ public class Practices {
 	public void setData(Map<String, String> data) {
 		this.data = data;
 	}
-	public Map<String, String> getAnomaly() {
-		return anomaly;
-	}
-	public void setAnomaly(Map<String, String> anomaly) {
-		this.anomaly = anomaly;
-	}
-	public int getNext_anomaly_id() {
-		return next_anomaly_id;
-	}
-	public void setNext_anomaly_id(int next_anomaly_id) {
-		this.next_anomaly_id = next_anomaly_id;
-	}
-	public String getLeaderName() {
-		return leaderName;
-	}
-	public void setLeaderName(String leaderName) {
-		this.leaderName = leaderName;
-	}
-	public String getPracticeName() {
-		return practiceName;
-	}
-	public void setPracticeName(String practiceName) {
-		this.practiceName = practiceName;
-	}
-	public String getStart() {
+	public Date getStart() {
 		return start;
 	}
-	public void setStart(String start) {
+	public void setStart(Date start) {
 		this.start = start;
 	}
-	public String getEnd() {
+	public Date getEnd() {
 		return end;
 	}
-	public void setEnd(String end) {
+	public void setEnd(Date end) {
 		this.end = end;
 	}
-	
-	
-	
+	public String getTopic_id() {
+		return topic_id;
+	}
+	public void setTopic_id(String topic_id) {
+		this.topic_id = topic_id;
+	}
 }
