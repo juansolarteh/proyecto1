@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,12 +63,12 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 			if(practice!=null) {
 				if(practice.getId().compareTo(idResultado)==0) {
 					Map<String, String> anomalias=practice.getAnomalias();
-					anomalias.put(String.valueOf(practice.getNextAnomalyId()), anomalia);
+					anomalias.put(String.valueOf(practice.getNext_anomaly_id()), anomalia);
 						//Actualización en la base de datos
 						DocumentReference docRef=firestore.collection("Practices").document(practice.getId());
 						ApiFuture<WriteResult> future=docRef.update("anomalias",anomalias);
 						future.get();
-						int aux=practice.getNextAnomalyId();
+						int aux=practice.getNext_anomaly_id();
 						aux=aux+1;
 						ApiFuture<WriteResult> futur=docRef.update("nextAnomalyId",aux);
 						futur.get();
@@ -122,6 +123,7 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 	@Override
 	public String crearCSV(String idResultado) throws Exception {
 		String nombreArchivo="./datos"+idResultado+".csv";
+		String id_topic;
 		try	{
 			boolean existe=new File(nombreArchivo).exists();
 			if(existe) {
@@ -132,11 +134,15 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 			CsvWriter salidaCSV=new CsvWriter(new FileWriter(nombreArchivo, true), ';');
 			
 			//
+			salidaCSV.write("*****************RESULTADOS*******************");
+			salidaCSV.endRecord();
 			salidaCSV.write("Estudiantes: ");
 			
 			for(PracticesDTO practice : getAll()) {
 				if(practice!=null) {
 					if(practice.getId().compareTo(idResultado)==0) {
+						id_topic=practice.getTopic_id();
+						String topic=getTopic(id_topic);
 						for(String student: practice.getStudents().values()) {
 							salidaCSV.write(student);
 						}
@@ -147,6 +153,30 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 							salidaCSV.write(student);
 						}
 						salidaCSV.endRecord();
+						salidaCSV.write("Hora Inicio: ");
+						salidaCSV.write(practice.getStart().toString());
+						salidaCSV.endRecord();
+						salidaCSV.write("Hora Fin: ");
+						salidaCSV.write(practice.getEnd().toString());
+						salidaCSV.endRecord();
+						if(topic.compareTo("Ley de Hook")==0) {
+							salidaCSV.write("Planta usada;Ley Hook");
+							salidaCSV.endRecord();
+							salidaCSV.write("***********Elongaciones***************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("Elongaciones").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("Elongaciones").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Pesos***********************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("Pesos").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("Pesos").get(key).toString());
+								salidaCSV.endRecord();
+							}
+						}
 						break;
 					}
 				}
@@ -159,6 +189,16 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 			e.printStackTrace();
 			return "Ocurrio un error";
 		}
+	}
+	private String getTopic(String id_topic) throws InterruptedException, ExecutionException {
+		String result="";
+		DocumentReference docRef = firestore.collection("Topics").document(id_topic);
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		DocumentSnapshot document=future.get();
+		if(document.exists()) {
+			result=document.getData().get("name").toString();
+		}
+		return result;
 	}
 	private String getNombreEstudiante(String idEstudiante) throws Exception {
 		String result="";
@@ -190,7 +230,7 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 			practices.setAnomalias(lista.get(i).getAnomalias());
 			practices.setLeaderName(lista.get(i).getLeaderName());
 			practices.setPracticeName(lista.get(i).getPracticeName());
-			practices.setNextAnomalyId(lista.get(i).getNextAnomalyId());
+			practices.setNextAnomalyId(lista.get(i).getNext_anomaly_id());
 			String fechaInicio = formato1.format(lista.get(i).getStart())+"T"+formato2.format(lista.get(i).getStart());
 			String fechaFin = formato1.format(lista.get(i).getEnd())+"T"+formato2.format(lista.get(i).getEnd());
 			practices.setStart(fechaInicio);

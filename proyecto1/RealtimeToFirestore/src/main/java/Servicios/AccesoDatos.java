@@ -89,6 +89,7 @@ public class AccesoDatos {
 			  @Override
 			  public void onDataChange(DataSnapshot dataSnapshot) {
 			    Planta2 planta2 = dataSnapshot.getValue(Planta2.class);
+			    
 			    if(planta2.getFinalizado()) {
 			    	try {
 						String idPractice=ConsultarId("Planta2");
@@ -106,8 +107,15 @@ public class AccesoDatos {
 		ref3.addValueEventListener( new ValueEventListener() {
 			  @Override
 			  public void onDataChange(DataSnapshot dataSnapshot) {
-			    Planta3 planta3 = dataSnapshot.getValue(Planta3.class);
-			    if(planta3.getFinalizado()) {
+				  Planta3 planta3=new Planta3();
+				  try {
+					  planta3 = dataSnapshot.getValue(Planta3.class);
+					    System.out.println("Finalizar: "+planta3.getFinalizar());
+				} catch (Exception e) {
+					System.out.println("Exception: "+e.getMessage());
+				}
+			    
+			    if(planta3.getFinalizar()) {
 			    	try {
 						String idPractice=ConsultarId("Planta3");
 						migrarValoresPlanta3(idPractice, planta3);
@@ -130,6 +138,7 @@ public class AccesoDatos {
 		if(document.exists()) {
 			result=document.getData().get(prmPlanta).toString();
 		}
+		System.out.println("Id: "+result);
 		return result;
 	}
 	private void migrarValoresPlanta1(String idPractice, Planta1 objPlanta1) throws InterruptedException, ExecutionException {
@@ -151,12 +160,31 @@ public class AccesoDatos {
 	}
 	private void migrarValoresPlanta3(String idPractice, Planta3 objPlanta3) throws InterruptedException, ExecutionException {
 		Map<String, Map<String, Float>> data=new HashMap<String, Map<String,Float>>();
-		data.put("PosX", objPlanta3.getPosX());
-		data.put("PosY", objPlanta3.getPosY());
-		data.put("Tiempo", objPlanta3.getTiempo());
+		Map<String, Float> datos_x=new HashMap<>();
+		int i=0;
+		for (Float value : objPlanta3.getDatos_x()) {
+			datos_x.put(Integer.toString(i), value);
+			i++;
+		}
+		Map<String, Float> datos_y=new HashMap<>();
+		i=0;
+		for (Float value : objPlanta3.getDatos_y()) {
+			datos_y.put(Integer.toString(i), value);
+			i++;
+		}
+		data.put("datos_x", datos_x);
+		data.put("datos_y", datos_y);
 		DocumentReference docRef = firestore.collection("Practices").document(idPractice);
 		ApiFuture<WriteResult> future=docRef.update("data",data);
 		future.get();;
+		Map<String, String> variables=new HashMap<String,String>();
+		variables.put("posicion_X", objPlanta3.getPosicion_X());
+		variables.put("posicion_Y", objPlanta3.getPosicion_Y());
+		variables.put("tiempo", objPlanta3.getTiempo());
+		variables.put("url_imagen", objPlanta3.getUrl_imagen());
+		DocumentReference docRef1 = firestore.collection("Practices").document(idPractice);
+		ApiFuture<WriteResult> future1=docRef1.update("variables",variables);
+		future1.get();;
 	}
 }
 

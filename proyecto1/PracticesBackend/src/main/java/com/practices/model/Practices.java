@@ -11,6 +11,7 @@ public class Practices {
 	private Map<String, String> students;
 	private Map<String, String> attendees;
 	private Map<String, Map<String, Float>> data;
+	private Map<String, String> variables;
 	private Map<String, String> anomaly;
 	private int next_anomaly_id;
 	private String leaderName;
@@ -18,6 +19,12 @@ public class Practices {
 	private Date start;
 	private Date end;
 	
+	public Map<String, String> getVariables() {
+		return variables;
+	}
+	public void setVariables(Map<String, String> variables) {
+		this.variables = variables;
+	}
 	public String getLeaderName() {
 		return leaderName;
 	}
@@ -30,11 +37,12 @@ public class Practices {
 	public void setPracticeName(String practiceName) {
 		this.practiceName=practiceName;
 	}
-	public void setAnomalias(Map<String, String> anomalias){
-		this.anomaly=anomalias;
+	
+	public int getNext_anomaly_id() {
+		return next_anomaly_id;
 	}
-	public Map<String, String> getAnomalias(){
-		return this.anomaly;
+	public void setNext_anomaly_id(int next_anomaly_id) {
+		this.next_anomaly_id = next_anomaly_id;
 	}
 	public int getNextAnomalyId() {
 		return next_anomaly_id;

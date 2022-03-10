@@ -12,6 +12,7 @@ public class PracticesDTO {
 	private Map<String, String> students;
 	private Map<String, String> attendees;
 	private Map<String, Map<String, Float>> data;
+	private Map<String, String> variables;
 	private Map<String, String> anomalias;
 	private String leaderName;
 	private String practiceName;
@@ -19,6 +20,12 @@ public class PracticesDTO {
 	private Date start;
 	private Date end;
 	
+	public Map<String, String> getVariables() {
+		return variables;
+	}
+	public void setVariables(Map<String, String> variables) {
+		this.variables = variables;
+	}
 	public String getLeaderName() {
 		return leaderName;
 	}
@@ -31,10 +38,11 @@ public class PracticesDTO {
 	public void setPracticeName(String practiceName) {
 		this.practiceName=practiceName;
 	}
-	public int getNextAnomalyId() {
+	
+	public int getNext_anomaly_id() {
 		return next_anomaly_id;
 	}
-	public void setNextAnomalyId(int next_anomaly_id) {
+	public void setNext_anomaly_id(int next_anomaly_id) {
 		this.next_anomaly_id = next_anomaly_id;
 	}
 	public String getId() {
