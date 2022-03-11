@@ -75,6 +75,8 @@ public class AccesoDatos {
 		    	try {
 					String idPractice=ConsultarId("Planta1");
 					migrarValoresPlanta1(idPractice, planta1);
+					DatabaseReference usersRef = ref1.child("finalizado");
+					usersRef.setValueAsync(Boolean.FALSE);
 				} catch (InterruptedException | ExecutionException e) {
 					System.out.println(e.getMessage());
 				}
@@ -94,6 +96,8 @@ public class AccesoDatos {
 			    	try {
 						String idPractice=ConsultarId("Planta2");
 						migrarValoresPlanta2(idPractice, planta2);
+						DatabaseReference usersRef = ref2.child("finalizado");
+						usersRef.setValueAsync(Boolean.FALSE);
 					} catch (InterruptedException | ExecutionException e) {
 						System.out.println(e.getMessage());
 					}
@@ -119,6 +123,8 @@ public class AccesoDatos {
 			    	try {
 						String idPractice=ConsultarId("Planta3");
 						migrarValoresPlanta3(idPractice, planta3);
+						DatabaseReference usersRef = ref3.child("finalizado");
+						usersRef.setValueAsync(Boolean.FALSE);
 					} catch (InterruptedException | ExecutionException e) {
 						System.out.println(e.getMessage());
 					}
@@ -132,7 +138,7 @@ public class AccesoDatos {
 	}
 	private String ConsultarId(String prmPlanta) throws InterruptedException, ExecutionException  {
 		String result="";
-		DocumentReference docRef = firestore.collection("EnEjecucion").document("4P8uedlc7KKOo3iH6PEw");
+		DocumentReference docRef = firestore.collection("InExecution").document("BCcz7EchFcDdTQeD1edo");
 		ApiFuture<DocumentSnapshot> future = docRef.get();
 		DocumentSnapshot document=future.get();
 		if(document.exists()) {
@@ -148,6 +154,7 @@ public class AccesoDatos {
 		DocumentReference docRef = firestore.collection("Practices").document(idPractice);
 		ApiFuture<WriteResult> future=docRef.update("data",data);
 		future.get();;
+		
 	}
 	private void migrarValoresPlanta2(String idPractice, Planta2 objPlanta2) throws InterruptedException, ExecutionException {
 		Map<String, Map<String, Float>> data=new HashMap<String, Map<String,Float>>();

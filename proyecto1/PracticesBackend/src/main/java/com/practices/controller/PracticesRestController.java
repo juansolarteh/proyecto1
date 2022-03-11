@@ -2,6 +2,7 @@ package com.practices.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,6 +96,20 @@ public class PracticesRestController {
 		}
 
 		return new ResponseEntity<String>(rta, HttpStatus.OK);
-	
+	}
+	@GetMapping(value = "/getData/{id}")
+	public ResponseEntity<Map<String,Map<String,Float>>> getData(@PathVariable String id) throws Exception {
+		Map<String,Map<String,Float>> data = practicesServiceAPI.getDataPractice(id);
+		
+		if (data != null) {
+			return new ResponseEntity<Map<String,Map<String,Float>>>(data, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Map<String,Map<String,Float>>>(data, HttpStatus.NO_CONTENT);
+		}
+	}
+	@PostMapping(value = "/setInExecution/{planta}/{idPractice}")
+	public ResponseEntity<String> setInExecution(@PathVariable String planta,@PathVariable String idPractice) throws Exception {
+		practicesServiceAPI.practicaEnEjecucion(planta, idPractice);
+		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
 }

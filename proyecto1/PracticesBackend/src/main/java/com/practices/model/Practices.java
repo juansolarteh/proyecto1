@@ -19,6 +19,12 @@ public class Practices {
 	private Date start;
 	private Date end;
 	
+	public Map<String, String> getAnomaly() {
+		return anomaly;
+	}
+	public void setAnomaly(Map<String, String> anomaly) {
+		this.anomaly = anomaly;
+	}
 	public Map<String, String> getVariables() {
 		return variables;
 	}

@@ -1,20 +1,26 @@
 package com.practices.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.csvreader.CsvWriter;
 import com.google.api.core.ApiFuture;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -24,6 +30,16 @@ import com.practices.commons.GenericServiceImpl;
 import com.practices.dto.PracticesDTO;
 import com.practices.dto.SendPracticesDTO;
 import com.practices.model.Practices;
+import com.google.cloud.storage.Acl;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageException;
+import com.google.cloud.storage.StorageOptions;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.StorageClient;
 
 @Service
 public class PracticesServiceImpl  extends GenericServiceImpl<Practices, PracticesDTO> implements PracticesServiceAPI{ 
@@ -122,14 +138,11 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 
 	@Override
 	public String crearCSV(String idResultado) throws Exception {
-		String nombreArchivo="./datos"+idResultado+".csv";
+		String nombreArchivo="./"+idResultado+".csv";
+		
 		String id_topic;
 		try	{
-			boolean existe=new File(nombreArchivo).exists();
-			if(existe) {
-				File archivoDatos=new  File(nombreArchivo);
-				archivoDatos.delete();
-			}
+			
 			//Crerar el archivo
 			CsvWriter salidaCSV=new CsvWriter(new FileWriter(nombreArchivo, true), ';');
 			
@@ -143,6 +156,7 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 					if(practice.getId().compareTo(idResultado)==0) {
 						id_topic=practice.getTopic_id();
 						String topic=getTopic(id_topic);
+						System.out.println("Topic: "+id_topic);
 						for(String student: practice.getStudents().values()) {
 							salidaCSV.write(student);
 						}
@@ -153,14 +167,20 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 							salidaCSV.write(student);
 						}
 						salidaCSV.endRecord();
-						salidaCSV.write("Hora Inicio: ");
-						salidaCSV.write(practice.getStart().toString());
+						SimpleDateFormat formato1 = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat formato2 = new SimpleDateFormat("HH:mm:ss");
+						String fechaInicio = formato1.format(practice.getStart())+"  "+formato2.format(practice.getStart());
+						String fechaFin = formato1.format(practice.getEnd())+"  "+formato2.format(practice.getEnd());
+						salidaCSV.write("Fecha Y Hora Inicio: ");
+						salidaCSV.write(fechaInicio);
 						salidaCSV.endRecord();
-						salidaCSV.write("Hora Fin: ");
-						salidaCSV.write(practice.getEnd().toString());
+						salidaCSV.write("Fecha y Hora Fin: ");
+						salidaCSV.write(fechaFin);
 						salidaCSV.endRecord();
 						if(topic.compareTo("Ley de Hook")==0) {
-							salidaCSV.write("Planta usada;Ley Hook");
+							System.out.println("Entro Ley de Hook");
+							salidaCSV.write("Planta usada: ");
+							salidaCSV.write("Ley Hook");
 							salidaCSV.endRecord();
 							salidaCSV.write("***********Elongaciones***************");
 							salidaCSV.endRecord();
@@ -176,20 +196,134 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 								salidaCSV.write(practice.getData().get("Pesos").get(key).toString());
 								salidaCSV.endRecord();
 							}
+						}else if(topic.compareTo("Caida Libre")==0) {
+							System.out.println("Caida de Libre");
+							salidaCSV.write("Planta usada: ");
+							salidaCSV.write("Caida Libre");
+							salidaCSV.endRecord();
+							salidaCSV.write("***********Errores***************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("Errores").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("Errores").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************GravedadN***********************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("GravedadN").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("GravedadN").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Tiempo***********************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("Tiempo").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("Tiempo").get(key).toString());
+								salidaCSV.endRecord();
+							}
+						}else {
+							System.out.println("Lanzamiento Parabolico");
+							salidaCSV.write("Planta usada: ");
+							salidaCSV.write("Lanzamiento Parabolico");
+							salidaCSV.endRecord();
+							salidaCSV.write("***********Datos_x***************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("datos_x").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("datos_x").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Datos_y***********************");
+							salidaCSV.endRecord();
+							for(String key : practice.getData().get("datos_y").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("datos_y").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Variables***********************");
+							salidaCSV.endRecord();
+							salidaCSV.write("Posicion_x: ");
+							salidaCSV.write(practice.getVariables().get("posicion_X"));
+							salidaCSV.endRecord();
+							salidaCSV.write("Posicion_y: ");
+							salidaCSV.write(practice.getVariables().get("posicion_Y"));
+							salidaCSV.endRecord();
+							salidaCSV.write("Tiempo: ");
+							salidaCSV.write(practice.getVariables().get("tiempo"));
+							salidaCSV.endRecord();
+							salidaCSV.write("url_imagen: ");
+							salidaCSV.write(practice.getVariables().get("url_imagen"));
+							salidaCSV.endRecord();
 						}
 						break;
 					}
 				}
 			}
 			salidaCSV.close();
-			
-			return nombreArchivo;
+			subirArchivo("proyecto-1-94c3c", "proyecto-1-94c3c.appspot.com", idResultado+".csv", nombreArchivo);
+			URL url=generateV4GetObjectSignedUrl("proyecto-1-94c3c", "proyecto-1-94c3c.appspot.com", idResultado+".csv");
+			boolean existe=new File(nombreArchivo).exists();
+			if(existe) {
+				File archivoDatos=new  File(nombreArchivo);
+				archivoDatos.delete();
+			}
+			return url.toString();
 			
 		}catch (IOException e) {
 			e.printStackTrace();
 			return "Ocurrio un error";
 		}
 	}
+	private void subirArchivo(String projectId, String bucketName, String objectName, String filePath) throws IOException {
+	    // The ID of your GCP project
+	    // String projectId = "your-project-id";
+
+	    // The ID of your GCS bucket
+	    // String bucketName = "your-unique-bucket-name";
+
+	    // The ID of your GCS object
+	    // String objectName = "your-object-name";
+
+	    // The path to your file to upload
+	    // String filePath = "path/to/your/file"
+		StorageOptions storageOptions = StorageOptions.newBuilder()
+		       .setProjectId(projectId)
+		        .setCredentials(GoogleCredentials.fromStream(new 
+		         FileInputStream("./ClaveProyecto.json"))).build();
+		    Storage storage = storageOptions.getService();
+
+	    //Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+	    BlobId blobId = BlobId.of(bucketName, objectName);
+	    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+	    storage.create(blobInfo, Files.readAllBytes(Paths.get(filePath)));
+	    storage.createAcl(blobId, Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
+
+	    System.out.println(
+	        "File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
+	  }
+	private URL generateV4GetObjectSignedUrl(String projectId, String bucketName, String objectName) throws StorageException,IOException {
+	    // String projectId = "my-project-id";
+	    // String bucketName = "my-bucket";
+	    // String objectName = "my-object";
+
+	  StorageOptions storageOptions = StorageOptions.newBuilder()
+		       .setProjectId("proyecto-1-94c3c")
+		        .setCredentials(GoogleCredentials.fromStream(new 
+		         FileInputStream("./ClaveProyecto.json"))).build();
+		    Storage storage = storageOptions.getService();
+
+	    // Define resource
+	    BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(bucketName, objectName)).build();
+
+	    URL url =storage.signUrl(blobInfo, 15, TimeUnit.MINUTES, Storage.SignUrlOption.withV4Signature());
+
+	    System.out.println("Generated GET signed URL:");
+	    System.out.println(url);
+	    System.out.println("You can use this URL with any user agent, for example:");
+	    System.out.println("curl '" + url + "'");
+	    return url;
+	  }
 	private String getTopic(String id_topic) throws InterruptedException, ExecutionException {
 		String result="";
 		DocumentReference docRef = firestore.collection("Topics").document(id_topic);
@@ -240,6 +374,22 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 		return listAux;
 		
 	}
-	
+	@Override
+	public void practicaEnEjecucion(String planta, String idPractice) throws InterruptedException, ExecutionException {
+		DocumentReference docRef=firestore.collection("InExecution").document("BCcz7EchFcDdTQeD1edo");
+		ApiFuture<WriteResult> future=docRef.update(planta,idPractice);
+		future.get();;
+	}
+	@Override
+	public Map<String, Map<String, Float>> getDataPractice(String idPractice) throws Exception{
+		for(PracticesDTO practice : getAll()) {
+			if(practice!=null) {
+				if(practice.getId().compareTo(idPractice)==0) {
+					return practice.getData();
+				}
+			}
+		}
+		return null;
+	}
 	
 }
