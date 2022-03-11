@@ -112,7 +112,7 @@ public class PracticesRestController {
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/scheduledPractice/{idStudent}/{idWorkshop}")
+	@GetMapping(value = "/scheduledPractice/{idStudent}/{idWorkshop}")
 	public boolean scheduledPractice(@PathVariable String idStudent,@PathVariable String idWorkshop) throws Exception {
 		return practicesServiceAPI.scheduledPractice(idStudent, idWorkshop);
 	}
