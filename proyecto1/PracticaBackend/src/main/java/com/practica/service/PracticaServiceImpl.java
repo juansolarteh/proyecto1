@@ -31,14 +31,11 @@ public class PracticaServiceImpl extends GenericServiceImpl<Practica, PracticaDT
 		List<PracticaDTO> result = new ArrayList<PracticaDTO>();
 		for (PracticaDTO practica : getAll()) {
 			if (practica.getCourse_id() != null) {
-				if (practica.getCourse_id().compareTo(idMateria) == 0) {
-						if (new Date().before(practica.getEnd_available())
-								|| new Date().equals(practica.getEnd_available())) {
+				if (practica.getCourse_id().compareTo(idMateria) == 0) {						
 							practica.setCourse_name(getCourse(practica.getCourse_id()));
 							practica.setTopic_name(getTopic(practica.getTopic_id()));
 							result.add(practica);
-						}
-					
+											
 				}
 			}
 		}
