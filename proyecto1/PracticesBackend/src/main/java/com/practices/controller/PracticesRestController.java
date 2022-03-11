@@ -1,6 +1,5 @@
 package com.practices.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -111,5 +110,10 @@ public class PracticesRestController {
 	public ResponseEntity<String> setInExecution(@PathVariable String planta,@PathVariable String idPractice) throws Exception {
 		practicesServiceAPI.practicaEnEjecucion(planta, idPractice);
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/scheduledPractice/{idStudent}/{idWorkshop}")
+	public boolean scheduledPractice(@PathVariable String idStudent,@PathVariable String idWorkshop) throws Exception {
+		return practicesServiceAPI.scheduledPractice(idStudent, idWorkshop);
 	}
 }

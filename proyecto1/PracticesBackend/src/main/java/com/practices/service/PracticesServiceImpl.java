@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -33,13 +32,9 @@ import com.practices.model.Practices;
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageException;
 import com.google.cloud.storage.StorageOptions;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.StorageClient;
 
 @Service
 public class PracticesServiceImpl  extends GenericServiceImpl<Practices, PracticesDTO> implements PracticesServiceAPI{ 
@@ -391,5 +386,14 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 		}
 		return null;
 	}
-	
+
+	@Override
+	public boolean scheduledPractice(String idStudent, String idWorkshop) throws Exception {
+		List<PracticesDTO> lista = getFromMapByKey("students", idStudent);
+		for(PracticesDTO practice : lista) {
+			if(practice.getWorkshop_id().equals(idWorkshop))
+				return true;
+		}
+		return false;
+	}
 }
