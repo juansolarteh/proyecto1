@@ -375,18 +375,12 @@ public class PracticesServiceImpl  extends GenericServiceImpl<Practices, Practic
 	public SendPracticesDTO scheduledPractice(String idStudent, String idWorkshop) throws Exception {
 		SendPracticesDTO schedule = new SendPracticesDTO();
 		List<PracticesDTO> lista = getFromMapByKey("students", idStudent);
-		
+		idWorkshop = idWorkshop.replace("\n","");
 		for(PracticesDTO practice : lista) {
-			System.out.println(practice.getLeaderName());
-			System.out.println(practice.getWorkshop_id());
-			System.out.println(idWorkshop);
-			String id = practice.getWorkshop_id();
-			if(id.equals(idWorkshop)) {
-				//schedule = convertirObjeto(practice);
-				
-				System.out.println(schedule.getLeaderName());
+			if(practice.getWorkshop_id().equals(idWorkshop)) {
+				schedule = convertirObjeto(practice);
 				return schedule;
-			}
+			}	
 		}
 		return null;
 	}
