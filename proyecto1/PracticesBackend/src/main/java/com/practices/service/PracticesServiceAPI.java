@@ -18,5 +18,5 @@ public interface PracticesServiceAPI extends GenericServiceAPI<Practices, Practi
 	public String crearCSV(String idResultado) throws Exception;
 	public void practicaEnEjecucion(String planta, String idPractice) throws InterruptedException, ExecutionException;
 	public Map<String, Map<String, Float>> getDataPractice(String idPractice) throws Exception;
-	public boolean scheduledPractice(String idStudent, String idWorkshop) throws Exception;
+	public SendPracticesDTO scheduledPractice(String idStudent, String idWorkshop) throws Exception;
 }

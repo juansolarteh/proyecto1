@@ -113,7 +113,7 @@ public class PracticesRestController {
 	}
 	
 	@GetMapping(value = "/scheduledPractice/{idStudent}/{idWorkshop}")
-	public boolean scheduledPractice(@PathVariable String idStudent,@PathVariable String idWorkshop) throws Exception {
+	public SendPracticesDTO scheduledPractice(@PathVariable String idStudent,@PathVariable String idWorkshop) throws Exception {
 		return practicesServiceAPI.scheduledPractice(idStudent, idWorkshop);
 	}
 }
