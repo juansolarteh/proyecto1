@@ -9,7 +9,7 @@ public class PracticaDTO {
 	private String id;
 	private String topic_id;
 	private String course_id;
-	private Map<String, String> data;
+	private List<String> data;
 	private Date start_available;
 	private Date end_available;
 	private String course_name;
@@ -23,11 +23,11 @@ public class PracticaDTO {
 		this.id = id;
 	}
 	
-	public Map<String, String> getData() {
+	public List<String> getData() {
 		return data;
 	}
-	public void setData(Map<String, String> archivos) {
-		this.data = archivos;
+	public void setData(List<String> data) {
+		this.data = data;
 	}
 	public String getTopic_id() {
 		return topic_id;
