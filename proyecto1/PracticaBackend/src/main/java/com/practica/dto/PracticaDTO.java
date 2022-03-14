@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PracticaDTO {
+	private Map<String,String> cameras;
 	private String id;
 	private String topic_id;
 	private String course_id;
@@ -13,7 +14,7 @@ public class PracticaDTO {
 	private Date end_available;
 	private String course_name;
 	private String topic_name;
-	private Map<String,List<Float>> Variables;
+	private Map<String,Map<String,String>> constants;
 	
 	public String getId() {
 		return id;
@@ -64,12 +65,17 @@ public class PracticaDTO {
 	public void setTopic_name(String topic_name) {
 		this.topic_name = topic_name;
 	}
-	public Map<String, List<Float>> getVariables() {
-		return Variables;
+	public Map<String, String> getCameras() {
+		return cameras;
 	}
-	public void setVariables(Map<String, List<Float>> variables) {
-		Variables = variables;
+	public void setCameras(Map<String, String> cameras) {
+		this.cameras = cameras;
 	}
-	
+	public Map<String, Map<String, String>> getConstants() {
+		return constants;
+	}
+	public void setConstants(Map<String, Map<String, String>> constants) {
+		this.constants = constants;
+	}
 	
 }
