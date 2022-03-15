@@ -189,11 +189,18 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 								salidaCSV.write(practice.getData().get("Elongaciones").get(key).toString());
 								salidaCSV.endRecord();
 							}
-							salidaCSV.write("*************Pesos***********************");
+							salidaCSV.write("*************Pesos Obtenidos por la maquina***********************");
 							salidaCSV.endRecord();
-							for (String key : practice.getData().get("Pesos").keySet()) {
+							for (String key : practice.getData().get("Pesos_maquina").keySet()) {
 								salidaCSV.write(key);
-								salidaCSV.write(practice.getData().get("Pesos").get(key).toString());
+								salidaCSV.write(practice.getData().get("Pesos_maquina").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Pesos Seleccionados por el Estudiante***********************");
+							salidaCSV.endRecord();
+							for (String key : practice.getData().get("peso").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("peso").get(key).toString());
 								salidaCSV.endRecord();
 							}
 						} else if (topic.compareTo("Caida Libre") == 0) {
@@ -241,17 +248,30 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 								salidaCSV.write(practice.getData().get("datos_y").get(key).toString());
 								salidaCSV.endRecord();
 							}
+							salidaCSV.write("*************Tiempos***********************");
+							salidaCSV.endRecord();
+							for (String key : practice.getData().get("tiempo").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("tiempo").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Angulos***********************");
+							salidaCSV.endRecord();
+							for (String key : practice.getData().get("angulo").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("angulo").get(key).toString());
+								salidaCSV.endRecord();
+							}
+							salidaCSV.write("*************Velocidades***********************");
+							salidaCSV.endRecord();
+							for (String key : practice.getData().get("velocidad").keySet()) {
+								salidaCSV.write(key);
+								salidaCSV.write(practice.getData().get("velocidad").get(key).toString());
+								salidaCSV.endRecord();
+							}
 							salidaCSV.write("*************Variables***********************");
 							salidaCSV.endRecord();
-							salidaCSV.write("Posicion_x: ");
-							salidaCSV.write(practice.getVariables().get("posicion_X"));
-							salidaCSV.endRecord();
-							salidaCSV.write("Posicion_y: ");
-							salidaCSV.write(practice.getVariables().get("posicion_Y"));
-							salidaCSV.endRecord();
-							salidaCSV.write("Tiempo: ");
-							salidaCSV.write(practice.getVariables().get("tiempo"));
-							salidaCSV.endRecord();
+							
 							salidaCSV.write("url_imagen: ");
 							salidaCSV.write(practice.getVariables().get("url_imagen"));
 							salidaCSV.endRecord();
