@@ -68,4 +68,16 @@ public class StudentRestController {
 			return new ResponseEntity<String>(student.getId(), HttpStatus.OK);
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}
+	
+	@PostMapping(value = "/addCourse/{id_student}/{id_course}")
+	public ResponseEntity<String> setCourseId(@PathVariable String id_student,@PathVariable String id_course) throws Exception {
+		id_student = studentServiceAPI.setCourse(id_student,id_course);
+		return new ResponseEntity<String>(id_student, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/deleteCourse/{id_student}/{id_course}")
+	public ResponseEntity<String> deleteCourseId(@PathVariable String id_student,@PathVariable String id_course) throws Exception {
+		id_student = studentServiceAPI.deleteCourse(id_student,id_course);
+		return new ResponseEntity<String>(id_student, HttpStatus.OK);
+	}
 }

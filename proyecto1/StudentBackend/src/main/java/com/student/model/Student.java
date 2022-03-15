@@ -1,12 +1,21 @@
 package com.student.model;
 
+import java.util.List;
 
 public class Student {
 
 	private String name;
 	private String surname;
 	private String email;
+	private List<String> course_id;
 	
+	public Student(String name, String surname, String email, List<String> course_id) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.course_id = course_id;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -24,5 +33,15 @@ public class Student {
 	}
 	public void setSurname(String surname) {
 		this.surname = surname;
-	}	
+	}
+	public List<String> getCourse_id() {
+		return course_id;
+	}
+	public void setCourse_id(List<String> course_id) {
+		this.course_id = course_id;
+	}
+	
+	
+	
+	
 }

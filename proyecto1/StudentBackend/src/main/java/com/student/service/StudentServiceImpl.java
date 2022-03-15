@@ -25,4 +25,20 @@ public class StudentServiceImpl  extends GenericServiceImpl<Student, StudentDTO>
 	public StudentDTO getByEmail(String email) throws Exception {
 		return getByFieldPath("email", email);
 	}
+
+	@Override
+	public String setCourse(String id_student, String id_course) throws Exception {
+		StudentDTO std = get(id_student);
+		Student auxStd = new Student(std.getName(), std.getSurname(), std.getEmail(), std.getCourse_id());
+		auxStd.getCourse_id().add(id_course);
+		return save(auxStd, id_student);
+	}
+
+	@Override
+	public String deleteCourse(String id_student, String id_course) throws Exception {
+		StudentDTO std = get(id_student);
+		Student auxStd = new Student(std.getName(), std.getSurname(), std.getEmail(), std.getCourse_id());
+		auxStd.getCourse_id().remove(id_course);
+		return save(auxStd, id_student);
+	}
 }
