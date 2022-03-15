@@ -472,7 +472,7 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 			}
 			
 			ApiFuture<WriteResult> future2=docRef2.update("data",data);
-			future2.get();;			
+			future2.get();			
 		}
 		
 	}
