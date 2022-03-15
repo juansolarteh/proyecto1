@@ -116,4 +116,10 @@ public class PracticesRestController {
 	public SendPracticesDTO scheduledPractice(@PathVariable String idStudent,@PathVariable String idWorkshop) throws Exception {
 		return practicesServiceAPI.scheduledPractice(idStudent, idWorkshop);
 	}
+	
+	@PostMapping(value = "/setSelected/{planta}/{repeticion}")
+	public ResponseEntity<String> setSelectedWeight(@PathVariable String planta,@PathVariable String repeticion,@RequestBody Map<String,Float> datos) throws Exception {
+		practicesServiceAPI.datosSeleccionados(planta,repeticion, datos);
+		return new ResponseEntity<String>("OK", HttpStatus.OK);
+	}
 }

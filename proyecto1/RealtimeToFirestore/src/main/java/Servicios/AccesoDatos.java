@@ -150,7 +150,7 @@ public class AccesoDatos {
 	private void migrarValoresPlanta1(String idPractice, Planta1 objPlanta1) throws InterruptedException, ExecutionException {
 		Map<String, Map<String, Float>> data=new HashMap<String, Map<String,Float>>();
 		data.put("Elongaciones", objPlanta1.elongaciones);
-		data.put("Pesos", objPlanta1.pesos);
+		data.put("Pesos_maquina", objPlanta1.pesos);
 		DocumentReference docRef = firestore.collection("Practices").document(idPractice);
 		ApiFuture<WriteResult> future=docRef.update("data",data);
 		future.get();;
