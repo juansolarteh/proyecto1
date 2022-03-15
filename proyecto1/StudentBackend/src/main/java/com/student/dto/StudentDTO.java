@@ -1,11 +1,14 @@
 package com.student.dto;
 
+import java.util.List;
+
 public class StudentDTO {
 	
 	private String id;
 	private String name;
 	private String surname;
 	private String email;
+	private List<String> course_id;
 	
 	public String getId() {
 		return id;
@@ -31,5 +34,14 @@ public class StudentDTO {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+	public List<String> getCourse_id() {
+		return course_id;
+	}
+	public void setCourse_id(List<String> course_id) {
+		this.course_id = course_id;
+	}
+	
+	
+	
 	
 }
