@@ -76,6 +76,9 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 			if (practice != null) {
 				if (practice.getId().compareTo(idResultado) == 0) {
 					Map<String, String> anomalias = practice.getAnomalias();
+					if(anomalias==null) {
+						anomalias=new HashMap<>();
+					}
 					anomalias.put(String.valueOf(practice.getNext_anomaly_id()), anomalia);
 					// Actualización en la base de datos
 					DocumentReference docRef = firestore.collection("Practices").document(practice.getId());
@@ -98,6 +101,9 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 			if (practice != null) {
 				if (practice.getId().compareTo(idResultado) == 0) {
 					Map<String, String> students = practice.getStudents();
+					if(students==null) {
+						students=new HashMap<>();
+					}
 					if (!students.containsKey(idStudent)) {
 						students.put(idStudent, getNombreEstudiante(idStudent));
 						// Actualización en la base de datos
@@ -119,6 +125,9 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 			if (practice != null) {
 				if (practice.getId().compareTo(idResultado) == 0) {
 					Map<String, String> attendees = practice.getAttendees();
+					if(attendees==null) {
+						attendees=new HashMap<>();
+					}
 					if (!attendees.containsKey(idStudent)) {
 						attendees.put(idStudent, getNombreEstudiante(idStudent));
 						// Actualización en la base de datos
