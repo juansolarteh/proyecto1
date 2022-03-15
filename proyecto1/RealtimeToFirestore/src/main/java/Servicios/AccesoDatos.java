@@ -71,11 +71,11 @@ public class AccesoDatos {
 		  @Override
 		  public void onDataChange(DataSnapshot dataSnapshot) {
 		    Planta1 planta1 = dataSnapshot.getValue(Planta1.class);
-		    if(planta1.getFinalizado()) {
+		    if(planta1.getDatos()) {
 		    	try {
 					String idPractice=ConsultarId("Planta1");
 					migrarValoresPlanta1(idPractice, planta1);
-					DatabaseReference usersRef = ref1.child("finalizado");
+					DatabaseReference usersRef = ref1.child("datos");
 					usersRef.setValueAsync(Boolean.FALSE);
 				} catch (InterruptedException | ExecutionException e) {
 					System.out.println(e.getMessage());
