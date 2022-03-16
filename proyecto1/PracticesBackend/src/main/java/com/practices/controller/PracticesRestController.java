@@ -122,4 +122,9 @@ public class PracticesRestController {
 		practicesServiceAPI.datosSeleccionados(planta,repeticion, datos);
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/getPractice/{idTopic}")
+	public String scheduledPractice(@PathVariable String idTopic) throws Exception {
+		return practicesServiceAPI.getIdPractice(idTopic);
+	}
 }

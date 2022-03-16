@@ -20,4 +20,5 @@ public interface PracticesServiceAPI extends GenericServiceAPI<Practices, Practi
 	public Map<String, Map<String, Float>> getDataPractice(String idPractice) throws Exception;
 	public SendPracticesDTO scheduledPractice(String idStudent, String idWorkshop) throws Exception;
 	public void datosSeleccionados(String planta,String repeticion,Map<String,Float> datos) throws Exception;
+	public String getIdPractice(String planta) throws Exception ;
 }

@@ -460,4 +460,16 @@ public class PracticesServiceImpl extends GenericServiceImpl<Practices, Practice
 		}
 		
 	}
+	
+	@Override
+	public String getIdPractice(String planta) throws Exception {
+		String idPractice="";
+		DocumentReference docRef=firestore.collection("InExecution").document("BCcz7EchFcDdTQeD1edo");
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		DocumentSnapshot document = future.get();
+		if (document.exists()) {
+			idPractice= document.get(planta).toString();
+		}
+		return idPractice;
+	}
 }
