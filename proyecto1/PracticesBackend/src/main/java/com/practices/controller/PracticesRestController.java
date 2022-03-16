@@ -124,7 +124,7 @@ public class PracticesRestController {
 	}
 	
 	@GetMapping(value = "/getPractice/{idTopic}")
-	public String scheduledPractice(@PathVariable String idTopic) throws Exception {
+	public String getPractice(@PathVariable String idTopic) throws Exception {
 		return practicesServiceAPI.getIdPractice(idTopic);
 	}
 }
