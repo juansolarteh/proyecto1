@@ -226,18 +226,18 @@ public class AccesoDatos {
 		for (String key :objPlanta2.getTiempo().keySet()) {
 			tiempo.put(Integer.toString(contador2), objPlanta2.getTiempo().get(key));
 		}
-		Map<String, Float> errorG=data.get("ErrorG");
-		if(errorG==null) {
-			errorG=new HashMap<>();
-		}
-		errorG.put(Integer.toString(contador2), objPlanta2.getErrorG());
-		Map<String, Float> gravedad=data.get("Gravedad");
-		if(gravedad==null) {
-			gravedad=new HashMap<>();
-		}
-		gravedad.put(Integer.toString(contador2), objPlanta2.getGravedad());
-		data.put("ErrorG", errorG);
-		data.put("Gravedad", gravedad);
+//		Map<String, Float> errorG=data.get("ErrorG");
+//		if(errorG==null) {
+//			errorG=new HashMap<>();
+//		}
+//		errorG.put(Integer.toString(contador2), objPlanta2.getErrorG());
+//		Map<String, Float> gravedad=data.get("Gravedad");
+//		if(gravedad==null) {
+//			gravedad=new HashMap<>();
+//		}
+//		gravedad.put(Integer.toString(contador2), objPlanta2.getGravedad());
+//		data.put("ErrorG", errorG);
+//		data.put("Gravedad", gravedad);
 		data.put("Errores", errores);
 		data.put("GravedadN", gravedadN);
 		data.put("Tiempo", tiempo);
