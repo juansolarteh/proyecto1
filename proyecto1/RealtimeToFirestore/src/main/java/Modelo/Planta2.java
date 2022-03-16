@@ -6,7 +6,10 @@ public class Planta2 {
 	private Map<String, Float> errores;
 	private Map<String, Float> gravedadN;
 	private Map<String, Float> tiempo;
+	private Float ErrorG;
+	private Float gravedad;
 	private Boolean Finalizado;
+	private Boolean enviados;
 	public Planta2() {
 		
 	}
@@ -18,6 +21,30 @@ public class Planta2 {
 		this.gravedadN = gravedadN;
 		this.tiempo = tiempo;
 		Finalizado = finalizado;
+	}
+
+	public Boolean getEnviados() {
+		return enviados;
+	}
+
+	public void setEnviados(Boolean enviados) {
+		this.enviados = enviados;
+	}
+
+	public Float getErrorG() {
+		return ErrorG;
+	}
+
+	public void setErrorG(Float errorG) {
+		ErrorG = errorG;
+	}
+
+	public Float getGravedad() {
+		return gravedad;
+	}
+
+	public void setGravedad(Float gravedad) {
+		this.gravedad = gravedad;
 	}
 
 	public Map<String, Float> getErrores() {

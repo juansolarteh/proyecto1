@@ -28,6 +28,13 @@ import Modelo.Planta2;
 import Modelo.Planta3;
 
 public class AccesoDatos {
+	private String practicaAnterior="";
+	private int contador=0;
+	private String practicaAnterior2="";
+	private int contador2=0;
+	private String practicaAnterior3="";
+	private int contador3=0;
+
 	public AccesoDatos() {
 		try {
 			firestore();
@@ -92,12 +99,20 @@ public class AccesoDatos {
 			  public void onDataChange(DataSnapshot dataSnapshot) {
 			    Planta2 planta2 = dataSnapshot.getValue(Planta2.class);
 			    
-			    if(planta2.getFinalizado()) {
+			    if(planta2.getEnviados()) {
 			    	try {
 						String idPractice=ConsultarId("Planta2");
 						migrarValoresPlanta2(idPractice, planta2);
-						DatabaseReference usersRef = ref2.child("finalizado");
+						DatabaseReference usersRef = ref2.child("enviados");
 						usersRef.setValueAsync(Boolean.FALSE);
+						
+						DatabaseReference usersRef1 = ref2.child("gravedadN");
+						usersRef1.setValueAsync(new HashMap<String,Float>());
+						DatabaseReference usersRef2 = ref2.child("errores");
+						usersRef2.setValueAsync(new HashMap<String,Float>());
+						DatabaseReference usersRef3 = ref2.child("tiempo");
+						usersRef3.setValueAsync(new HashMap<String,Float>());
+						
 					} catch (InterruptedException | ExecutionException e) {
 						System.out.println(e.getMessage());
 					}
@@ -119,12 +134,12 @@ public class AccesoDatos {
 					System.out.println("Exception: "+e.getMessage());
 				}
 			    
-			    if(planta3.getFinalizado()) {
+			    if(planta3.getSubir_datos().compareTo("OFF")!=0) {
 			    	try {
 						String idPractice=ConsultarId("Planta3");
 						migrarValoresPlanta3(idPractice, planta3);
-						DatabaseReference usersRef = ref3.child("finalizado");
-						usersRef.setValueAsync(Boolean.FALSE);
+						DatabaseReference usersRef = ref3.child("subir_datos");
+						usersRef.setValueAsync("OFF");
 					} catch (InterruptedException | ExecutionException e) {
 						System.out.println(e.getMessage());
 					}
@@ -148,55 +163,141 @@ public class AccesoDatos {
 		return result;
 	}
 	private void migrarValoresPlanta1(String idPractice, Planta1 objPlanta1) throws InterruptedException, ExecutionException {
+		if(idPractice.compareTo(practicaAnterior)==0) {
+			contador=contador+1;
+		}else {
+			contador=1;
+			practicaAnterior=idPractice;
+		}
 		Map<String, Map<String, Float>> data=getData(idPractice);
 		if(data==null) {
 			data=new HashMap<String, Map<String,Float>>();
 		}
-		data.put("Elongaciones", objPlanta1.elongaciones);
-		data.put("Pesos_maquina", objPlanta1.pesos);
+		Map<String, Float> elongaciones=data.get("Elongaciones");
+		Map<String, Float> pesos_maquina=data.get("Pesos_maquina");
+		if(elongaciones==null) {
+			elongaciones=new HashMap<>();
+		}
+		for (String key :objPlanta1.getElongaciones().keySet()) {
+			elongaciones.put(Integer.toString(contador), objPlanta1.getElongaciones().get(key));
+		}
+		if(pesos_maquina==null) {
+			pesos_maquina=new HashMap<>();
+		}
+		for (String key :objPlanta1.getPesos().keySet()) {
+			pesos_maquina.put(Integer.toString(contador), objPlanta1.getPesos().get(key));
+		}
+		data.put("Elongaciones", elongaciones);
+		data.put("Pesos_maquina", pesos_maquina);
 		DocumentReference docRef = firestore.collection("Practices").document(idPractice);
 		ApiFuture<WriteResult> future=docRef.update("data",data);
 		future.get();;
 		
 	}
 	private void migrarValoresPlanta2(String idPractice, Planta2 objPlanta2) throws InterruptedException, ExecutionException {
+		if(idPractice.compareTo(practicaAnterior2)==0) {
+			contador2=contador2+1;
+		}else {
+			contador2=1;
+			practicaAnterior2=idPractice;
+		}
 		Map<String, Map<String, Float>> data=getData(idPractice);
 		if(data==null) {
 			data=new HashMap<String, Map<String,Float>>();
 		}
-		data.put("Errores", objPlanta2.getErrores());
-		data.put("GravedadN", objPlanta2.getGravedadN());
-		data.put("Tiempo", objPlanta2.getTiempo());
+		Map<String, Float> errores=data.get("Errores");
+		if(errores==null) {
+			errores=new HashMap<>();
+		}
+		for (String key :objPlanta2.getErrores().keySet()) {
+			errores.put(Integer.toString(contador2), objPlanta2.getErrores().get(key));
+		}
+		Map<String, Float> gravedadN=data.get("GravedadN");
+		if(gravedadN==null) {
+			gravedadN=new HashMap<>();
+		}
+		for (String key :objPlanta2.getGravedadN().keySet()) {
+			gravedadN.put(Integer.toString(contador2), objPlanta2.getGravedadN().get(key));
+		}
+		Map<String, Float> tiempo=data.get("Tiempo");
+		if(tiempo==null) {
+			tiempo=new HashMap<>();
+		}
+		for (String key :objPlanta2.getTiempo().keySet()) {
+			tiempo.put(Integer.toString(contador2), objPlanta2.getTiempo().get(key));
+		}
+		Map<String, Float> errorG=data.get("ErrorG");
+		if(errorG==null) {
+			errorG=new HashMap<>();
+		}
+		errorG.put(Integer.toString(contador2), objPlanta2.getErrorG());
+		Map<String, Float> gravedad=data.get("Gravedad");
+		if(gravedad==null) {
+			gravedad=new HashMap<>();
+		}
+		gravedad.put(Integer.toString(contador2), objPlanta2.getGravedad());
+		data.put("ErrorG", errorG);
+		data.put("Gravedad", gravedad);
+		data.put("Errores", errores);
+		data.put("GravedadN", gravedadN);
+		data.put("Tiempo", tiempo);
 		DocumentReference docRef = firestore.collection("Practices").document(idPractice);
 		ApiFuture<WriteResult> future=docRef.update("data",data);
 		future.get();;
 	}
 	private void migrarValoresPlanta3(String idPractice, Planta3 objPlanta3) throws InterruptedException, ExecutionException {
+		if(idPractice.compareTo(practicaAnterior3)==0) {
+			contador3=contador3+1;
+		}else {
+			contador3=1;
+			practicaAnterior3=idPractice;
+		}
 		Map<String, Map<String, Float>> data=getData(idPractice);
 		if(data==null) {
 			data=new HashMap<String, Map<String,Float>>();
 		}
-		Map<String, Float> datos_x=new HashMap<>();
+		Map<String, Float> datos_x=data.get("datos_x");
+		if(datos_x==null) {
+			datos_x=new HashMap<>();
+		}
 		int i=0;
 		for (String value : objPlanta3.getDatos_x()) {
 			datos_x.put(Integer.toString(i), Float.parseFloat(value));
 			i++;
 		}
-		Map<String, Float> datos_y=new HashMap<>();
+		Map<String, Float> datos_y=data.get("datos_y");
+		if(datos_y==null) {
+			datos_y=new HashMap<>();
+		}
 		i=0;
 		for (String value : objPlanta3.getDatos_y()) {
 			datos_y.put(Integer.toString(i), Float.parseFloat(value));
 			i++;
 		}
-		Map<String, Float> tiempo=new HashMap<>();
+		Map<String, Float> tiempo=data.get("tiempo");
+		if(tiempo==null) {
+			tiempo=new HashMap<>();
+		}
 		i=0;
 		for (String value : objPlanta3.getTiempo()) {
 			tiempo.put(Integer.toString(i), Float.parseFloat(value));
 			i++;
 		}
-		data.put("datos_x", datos_x);
-		data.put("datos_y", datos_y);
-		data.put("tiempo", tiempo);
+		Map<String, Float> angulo=data.get("angulo");
+		Map<String, Float> velocidad=data.get("velocidad");
+		if(angulo==null) {
+			angulo=new HashMap<>();
+		}
+		if(velocidad==null) {
+			velocidad=new HashMap<>();
+		}
+		angulo.put(Integer.toString(contador3), objPlanta3.getAngulo());
+		velocidad.put(Integer.toString(contador3), objPlanta3.getVelocidad());
+		data.put("angulo", angulo);
+		data.put("velocidad", velocidad);
+		data.put("datos_x"+contador3, datos_x);
+		data.put("datos_y"+contador3, datos_y);
+		data.put("tiempo"+contador3, tiempo);
 		DocumentReference docRef = firestore.collection("Practices").document(idPractice);
 		ApiFuture<WriteResult> future=docRef.update("data",data);
 		future.get();;

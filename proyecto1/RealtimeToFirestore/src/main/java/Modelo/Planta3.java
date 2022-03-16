@@ -10,9 +10,28 @@ public class Planta3 {
 	private List<String> tiempo;
 	private Boolean finalizado;
 	private String subir_datos;
+	private Float angulo;
+	private Float Velocidad;
 	public Planta3() {
 		
 	}
+	
+	public Float getAngulo() {
+		return angulo;
+	}
+
+	public void setAngulo(Float angulo) {
+		this.angulo = angulo;
+	}
+
+	public Float getVelocidad() {
+		return Velocidad;
+	}
+
+	public void setVelocidad(Float velocidad) {
+		Velocidad = velocidad;
+	}
+
 	public List<String> getDatos_x() {
 		return datos_x;
 	}
